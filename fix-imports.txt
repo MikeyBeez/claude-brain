@@ -1,0 +1,36 @@
+
+import { CONFIG } from "./config.js";
+/**
+ * Brain Unified MCP Server
+ * 
+ * Combines all Brain tools and Obsidian integration tools in one server.
+ */
+
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { exec, spawn } from 'child_process';
+import { promisify } from 'util';
+import Database from 'better-sqlite3';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import fs from 'fs';
+import path from 'path';
+
+// Debug logging
+const DEBUG_LOG_FILE = '/tmp/mcp_debug.log';
+
+const execAsync = promisify(exec);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Configuration
+const BRAIN_DB_PATH = CONFIG.BRAIN_DB_PATH;
+const VAULT_PATH = CONFIG.VAULT_PATH;
+const BRAIN_NOTES_PATH = __dirname;  // Use current directory
+const PYTHON_PATH = '/usr/local/bin/python3';
+const LOG_DIR = CONFIG.LOG_DIR;
+
+// Import crypto for future enhancements
+import crypto from 'crypto';
+import { OutputFilter, detectCommandType } from './output-filter-esm.js';

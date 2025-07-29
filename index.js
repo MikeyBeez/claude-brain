@@ -34,6 +34,8 @@ const LOG_DIR = CONFIG.LOG_DIR;
 // Import crypto for future enhancements
 import crypto from 'crypto';
 import { OutputFilter, detectCommandType } from './output-filter-esm.js';
+import { analysisMetatag, wrapInMetatag } from '../mcp-shared-utils/metatags.js';
+
 // Helper function to execute Python code via spawn, avoiding shell escaping issues
 function executePythonViaSpawn(pythonCode, pythonPath = PYTHON_PATH) {
   return new Promise((resolve, reject) => {
@@ -267,6 +269,9 @@ const tools = [
           output += `💾 Loaded ${recentMemories.length} recent memories`;
         }
         
+        // Add gentle workflow reminder
+        output += '\n\n📋 Protocol Reminder: Read prompt → Make plan → Check Master Protocol Index → Follow protocols';
+        
         return { content: [{ type: 'text', text: output }] };
       } catch (error) {
         fs.appendFileSync(DEBUG_LOG_FILE, `\nERROR in brain_analyze handler: ${error.message}\n`);
@@ -375,7 +380,16 @@ const tools = [
           }
         }
         
-        return { content: [{ type: 'text', text: output }] };
+        // Wrap memory results in metatag for source attribution
+        const wrappedOutput = wrapInMetatag(output, {
+          origin: 'memory',
+          confidence: 0.9,
+          tool: 'brain_recall',
+          query: query,
+          details: `Found ${results.length} results`
+        });
+        
+        return { content: [{ type: 'text', text: wrappedOutput }] };
       } catch (error) {
         return { 
           content: [{ 
@@ -430,6 +444,9 @@ const tools = [
             output += `  • ${item.key} (${item.updated_at})\\n`;
           }
         }
+        
+        // Add gentle workflow reminder
+        output += '\\n\\n📋 Protocol Reminder: Read prompt → Make plan → Check Master Protocol Index → Follow protocols';
         
         return { content: [{ type: 'text', text: output }] };
       } catch (error) {
@@ -551,7 +568,10 @@ const tools = [
           saveExecutionLog(execId, logEntry);
         }
         
-        return { content: [{ type: 'text', text: output }] };
+        // Wrap output in metatag for source attribution
+        const wrappedOutput = analysisMetatag(output, 'brain_execute');
+        
+        return { content: [{ type: 'text', text: wrappedOutput }] };
       } catch (error) {
         // Save error in execution log
         if (execId && logEntry) {
@@ -1071,12 +1091,7 @@ const tools = [
         content: { type: 'string' },
         identifier: { type: 'string' },
         metadata: { type: 'object' },
-        folder: { type: 'string' },
-        verbose: { 
-          type: 'boolean', 
-          description: 'Return full content without filtering',
-          default: false
-        }
+        folder: { type: 'string' }
       },
       required: ['action']
     },
@@ -1145,27 +1160,7 @@ except Exception as e:
             case 'read':
               if (result) {
                 output += `📖 ${result.title}\\n\\n`;
-                
-                // Apply output filtering for large notes
-                if (!args.verbose && result.content) {
-                  const filter = new OutputFilter({
-                    verbose: false,
-                    maxLines: 100,
-                    maxChars: 10000
-                  });
-                  
-                  const filtered = filter.filter(result.content, 'file');
-                  output += filtered.result;
-                  
-                  if (filtered.metadata.truncated) {
-                    output += `\\n\\n📊 Note filtering:\\n`;
-                    output += `  • Original: ${filtered.metadata.originalLines} lines, ${filtered.metadata.originalSize}\\n`;
-                    output += `  • Displayed: ${filtered.metadata.displayedLines || filtered.metadata.displayedChars} ${filtered.metadata.truncatedAt === 'lines' ? 'lines' : 'chars'}\\n`;
-                    output += `  • Use verbose: true for full content`;
-                  }
-                } else {
-                  output += result.content;
-                }
+                output += result.content;
               } else {
                 output += '❌ Note not found';
               }
@@ -1178,21 +1173,12 @@ except Exception as e:
               break;
             case 'list':
               const notesList = result.notes || [];
-              
-              if (!args.verbose && notesList.length > 50) {
-                output += `📚 Found ${notesList.length} notes (showing first 50):\\n`;
-                for (const note of notesList.slice(0, 50)) {
-                  output += `  • ${note.identifier} (${note.path})\\n`;
-                }
-                output += `\\n📊 List filtering:\\n`;
-                output += `  • Total notes: ${notesList.length}\\n`;
-                output += `  • Displayed: 50\\n`;
-                output += `  • Use verbose: true for full list`;
-              } else {
-                output += `📚 Found ${notesList.length} notes:\\n`;
-                for (const note of notesList) {
-                  output += `  • ${note.identifier} (${note.path})\\n`;
-                }
+              output += `📚 Found ${notesList.length} notes:\\n`;
+              for (const note of notesList.slice(0, 20)) {
+                output += `  • ${note.identifier} (${note.path})\\n`;
+              }
+              if (notesList.length > 20) {
+                output += `  ... and ${notesList.length - 20} more`;
               }
               break;
           }
@@ -1218,16 +1204,11 @@ except Exception as e:
       properties: {
         query: { type: 'string' },
         limit: { type: 'number', default: 20 },
-        source: { type: 'string', enum: ['all', 'brain', 'obsidian'], default: 'all' },
-        verbose: { 
-          type: 'boolean', 
-          description: 'Return full results without filtering',
-          default: false
-        }
+        source: { type: 'string', enum: ['all', 'brain', 'obsidian'], default: 'all' }
       },
       required: ['query']
     },
-    handler: async ({ query, limit = 20, source = 'all', verbose = false }) => {
+    handler: async ({ query, limit = 20, source = 'all' }) => {
       // Escape query to prevent Python injection
       const escapedQuery = query.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
       
@@ -1315,11 +1296,8 @@ except Exception as e:
           output += `📊 Found: ${results.brain_count} Brain | ${results.obsidian_count} Obsidian\\n\\n`;
           
           if (results.merged && results.merged.length > 0) {
-            const displayLimit = verbose ? results.merged.length : 10;
-            const resultsToShow = results.merged.slice(0, displayLimit);
-            
-            output += `🔝 Top Results${!verbose && results.merged.length > 10 ? ' (showing first 10)' : ''}:\\n`;
-            for (const [i, result] of resultsToShow.entries()) {
+            output += '🔝 Top Results:\\n';
+            for (const [i, result] of results.merged.entries()) {
               if (result.source === 'brain') {
                 output += `\\n${i+1}. 🧠 ${result.key}\\n`;
                 output += `   Type: ${result.type}\\n`;
@@ -1328,13 +1306,6 @@ except Exception as e:
                 output += `   Path: ${result.path}\\n`;
               }
               output += `   Score: ${result.final_score?.toFixed(3) || 'N/A'}\\n`;
-            }
-            
-            if (!verbose && results.merged.length > 10) {
-              output += `\\n📊 Search filtering:\\n`;
-              output += `  • Total results: ${results.merged.length}\\n`;
-              output += `  • Displayed: 10\\n`;
-              output += `  • Use verbose: true for all results`;
             }
           } else {
             output += '❌ No results found';
