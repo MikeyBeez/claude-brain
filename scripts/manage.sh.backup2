@@ -47,7 +47,7 @@ case "$1" in
         fi
         
         if lsof -i :9996 >/dev/null 2>&1; then
-#            echo "✅ Web Monitor: Running on port 9996"
+            echo "✅ Web Monitor: Running on port 9996"
 #            echo "   URL: http://localhost:9996/execution-monitor.html"
         else
             echo "❌ Web Monitor: Not running"

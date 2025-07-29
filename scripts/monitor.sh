@@ -17,8 +17,8 @@ lsof -ti :9996 | xargs kill -9 2>/dev/null
 lsof -ti :9998 | xargs kill -9 2>/dev/null
 sleep 1
 
-# Start API server
-echo "Starting API server on port 9998..."
+# Start Brain server
+echo "Starting Brain server on brain server..."
 cd "$MONITOR_DIR"
 nohup python3 server.py > /tmp/brain-api.log 2>&1 &
 API_PID=$!
@@ -72,7 +72,7 @@ fi
         echo "Brain Monitoring Status:"
         echo "======================="
         if lsof -i :9998 >/dev/null 2>&1; then
-            echo "✅ API Server: Running (port 9998)"
+            echo "✅ API Server: Running (brain server)"
         else
             echo "❌ API Server: Not running"
         fi

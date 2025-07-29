@@ -34,11 +34,19 @@ Claude Brain provides Claude with persistent memory across conversations, combin
    # Copy configuration
    cp config.example.js config.js
    
+   # Initialize with uv
+   uv venv
    
-   # Edit config.js to set your paths (vault, database locations)
-   # No separate execution server needed - brain_execute runs directly in Brain server
+   # Install as a service (auto-starts on login)
+   cp ~/Desktop/com.user.brain-execution-server.plist ~/Library/LaunchAgents/
+   launchctl load ~/Library/LaunchAgents/com.user.brain-execution-server.plist
+   launchctl start com.user.brain-execution-server
+   
+   # Verify it's running
+   curl http://localhost:9998/
    ```
    
+   **Note**: The execution server must be running for `brain_execute` to work.
 
 3. **Configure Claude Desktop**:
    Add to your Claude Desktop config:
@@ -176,8 +184,10 @@ claude-brain/
 - Look for errors in Claude Desktop's logs
 
 ### Execution not working
-- **Check Brain server status**: Use the `brain_status` tool
-- **View logs**: `tail -f ~/Library/Logs/brain-service.log`
+- **Check if the execution server is running**: `curl http://localhost:9998/`
+- **Start it manually if needed**: `cp config.example.js config.js && uv run python server.py`
+- **Check service status**: `launchctl list | grep brain-execution`
+- **View logs**: `tail -f ~/Library/Logs/brain-execution-server.log`
 - Ensure Node.js is properly installed and in your PATH
 - Check that the brain_execute function is not commented out in index.js
 - Verify you have appropriate permissions for the commands being executed
