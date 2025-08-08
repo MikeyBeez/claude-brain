@@ -92,6 +92,8 @@ unified_search {
 
 ## 🎯 Best Practices
 
+For detailed guidance, see [[Best-Practices]].
+
 ### Memory Management
 - Use descriptive keys
 - Organize with types
@@ -129,9 +131,9 @@ unified_search {
 
 ## 📚 Learning Path
 
-1. **Beginner**: Focus on basic memory and notes
-2. **Intermediate**: Explore state management and projects
-3. **Advanced**: Build custom workflows and automations
+1. **Beginner**: Focus on basic memory and notes - Start with [[Boot-Sequence]]
+2. **Intermediate**: Explore state management and projects - See [[Brain-Init-Instructions]]
+3. **Advanced**: Build custom workflows and automations - Check [[MCP-Tools-Guide]]
 
 ## 🔧 Troubleshooting
 
@@ -144,3 +146,9 @@ Common issues and solutions:
 ## 🎉 Welcome to Your Extended Mind!
 
 The Brain System is designed to be your reliable external memory and intelligent assistant. Start simple, experiment, and build your personal knowledge management system!
+
+## Related Documents
+- [[README]] - Getting started guide
+- [[HOW-TO-USE]] - Usage instructions
+- [[Quick-Reference]] - Quick command reference
+- [[Best-Practices]] - Recommended workflows
