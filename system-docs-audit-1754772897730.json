@@ -1,0 +1,973 @@
+{
+  "timestamp": "2025-08-09T20:54:57.730Z",
+  "stats": {
+    "totalSystemDocs": 42,
+    "duplicates": 1,
+    "outdated": 0,
+    "stale": 1
+  },
+  "byCategory": {
+    "User Configuration": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/configuration/user_preferences.md",
+        "name": "user_preferences",
+        "relativePath": "brain_system/configuration/user_preferences.md",
+        "created": "2025-07-07T00:31:39.055Z",
+        "modified": "2025-07-07T00:31:39.055Z",
+        "size": 1368,
+        "daysSinceModified": 33,
+        "metadata": {
+          "brain_key": "user_preferences",
+          "type": "user_preferences",
+          "created": "2025-06-30 07:47:43",
+          "updated": "2025-07-06 20:45:57",
+          "access_count": "32",
+          "source": "brain_export",
+          "tags": "[brain-memory, user_preferences]"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "User Configuration"
+      }
+    ],
+    "Brain Initialization": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/architecture/brain_init_reminder.md",
+        "name": "brain_init_reminder",
+        "relativePath": "brain_system/architecture/brain_init_reminder.md",
+        "created": "2025-07-07T00:31:39.125Z",
+        "modified": "2025-08-09T19:28:27.455Z",
+        "size": 828,
+        "daysSinceModified": 0,
+        "metadata": {
+          "brain_key": "brain_init_reminder",
+          "type": "reminder",
+          "created": "2025-06-30 23:28:59",
+          "updated": "2025-07-06 18:50:14",
+          "access_count": "0",
+          "source": "brain_export",
+          "tags": "[brain-memory, reminder]"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Initialization"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/architecture/brain_init_operational_protocol.md",
+        "name": "brain_init_operational_protocol",
+        "relativePath": "brain_system/architecture/brain_init_operational_protocol.md",
+        "created": "2025-07-07T00:31:39.093Z",
+        "modified": "2025-08-09T19:28:27.443Z",
+        "size": 2559,
+        "daysSinceModified": 0,
+        "metadata": {
+          "brain_key": "brain_init_operational_protocol",
+          "type": "system",
+          "created": "2025-06-30 15:54:47",
+          "updated": "2025-07-06 18:50:14",
+          "access_count": "2",
+          "source": "brain_export",
+          "tags": "[brain-memory, system]"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Initialization"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/architecture/brain_init_loading_strategy.md",
+        "name": "brain_init_loading_strategy",
+        "relativePath": "brain_system/architecture/brain_init_loading_strategy.md",
+        "created": "2025-07-07T00:31:39.092Z",
+        "modified": "2025-08-09T19:28:27.432Z",
+        "size": 1344,
+        "daysSinceModified": 0,
+        "metadata": {
+          "brain_key": "brain_init_loading_strategy",
+          "type": "system",
+          "created": "2025-06-30 15:40:24",
+          "updated": "2025-07-06 18:50:14",
+          "access_count": "2",
+          "source": "brain_export",
+          "tags": "[brain-memory, system]"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Initialization"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/architecture/brain_init_display_instructions.md",
+        "name": "brain_init_display_instructions",
+        "relativePath": "brain_system/architecture/brain_init_display_instructions.md",
+        "created": "2025-07-07T00:31:39.094Z",
+        "modified": "2025-08-09T19:28:27.417Z",
+        "size": 1654,
+        "daysSinceModified": 0,
+        "metadata": {
+          "brain_key": "brain_init_display_instructions",
+          "type": "system",
+          "created": "2025-06-30 15:55:14",
+          "updated": "2025-07-06 18:50:14",
+          "access_count": "2",
+          "source": "brain_export",
+          "tags": "[brain-memory, system]"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Initialization"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/protocols/brain-init-protocol-v3.md",
+        "name": "brain-init-protocol-v3",
+        "relativePath": "protocols/brain-init-protocol-v3.md",
+        "created": "2025-08-03T16:54:14.021Z",
+        "modified": "2025-08-09T19:28:27.251Z",
+        "size": 3609,
+        "daysSinceModified": 0,
+        "metadata": {},
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Initialization"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/protocols/Development History - Brain Initialization Protocols.md",
+        "name": "Development History - Brain Initialization Protocols",
+        "relativePath": "protocols/Development History - Brain Initialization Protocols.md",
+        "created": "2025-08-03T16:47:20.946Z",
+        "modified": "2025-08-09T19:28:25.796Z",
+        "size": 2560,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-07-30T14:18:43.931653",
+          "modified": "2025-07-30T14:18:43.931653"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Initialization"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/protocols/Brain Init Protocol v4 - Unified.md",
+        "name": "Brain Init Protocol v4 - Unified",
+        "relativePath": "protocols/Brain Init Protocol v4 - Unified.md",
+        "created": "2025-08-03T20:29:41.830Z",
+        "modified": "2025-08-09T00:32:39.429Z",
+        "size": 8404,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-08-03T19:50:00.000000",
+          "modified": "2025-08-03T20:35:00.000000",
+          "tags": "",
+          "type": "protocol",
+          "status": "active",
+          "priority": "critical",
+          "lifecycle_stage": "active",
+          "lifecycle_entered": "2025-08-03",
+          "review_cycle": "monthly",
+          "last_review": "2025-08-03",
+          "next_review": "2025-09-03",
+          "content_currency": "current",
+          "currency_assessment": "2025-08-03",
+          "freshness_indicator": "hot",
+          "usage_frequency": "continuous",
+          "access_pattern": "workflow",
+          "criticality_time": "immediate",
+          "temporal_scope": "session",
+          "temporal_triggers": "",
+          "version": "\"4.2-unified\"",
+          "version_type": "major",
+          "supersedes": "",
+          "superseded_by": "null",
+          "stability_assessment": "stable",
+          "validation_frequency": "monthly",
+          "last_validation": "2025-08-03",
+          "next_validation": "2025-09-03"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Initialization"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/Brain Init Instructions - READ AFTER BRAIN_INIT.md",
+        "name": "Brain Init Instructions - READ AFTER BRAIN_INIT",
+        "relativePath": "brain_system/Brain Init Instructions - READ AFTER BRAIN_INIT.md",
+        "created": "2025-08-03T02:41:24.419Z",
+        "modified": "2025-08-04T15:27:49.831Z",
+        "size": 6786,
+        "daysSinceModified": 5,
+        "metadata": {
+          "created": "2025-07-17T23:22:03.272463",
+          "modified": "2025-08-04T10:27:49.831193"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Initialization"
+      }
+    ],
+    "Startup": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/architecture/brain_startup_instructions.md",
+        "name": "brain_startup_instructions",
+        "relativePath": "brain_system/architecture/brain_startup_instructions.md",
+        "created": "2025-07-07T00:31:39.145Z",
+        "modified": "2025-08-09T19:28:27.569Z",
+        "size": 863,
+        "daysSinceModified": 0,
+        "metadata": {
+          "brain_key": "brain_startup_instructions",
+          "type": "user_preferences",
+          "created": "2025-07-02 15:20:43",
+          "updated": "2025-07-06 18:50:14",
+          "access_count": "0",
+          "source": "brain_export",
+          "tags": "[brain-memory, user_preferences]"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Startup"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/architecture/BRAIN_STARTUP_PROTOCOL.md",
+        "name": "BRAIN_STARTUP_PROTOCOL",
+        "relativePath": "brain_system/architecture/BRAIN_STARTUP_PROTOCOL.md",
+        "created": "2025-08-03T16:47:14.661Z",
+        "modified": "2025-08-09T19:28:25.507Z",
+        "size": 1574,
+        "daysSinceModified": 0,
+        "metadata": {
+          "brain_key": "BRAIN_STARTUP_PROTOCOL",
+          "type": "general",
+          "created": "2025-07-01 05:40:50",
+          "updated": "2025-07-06 18:50:14",
+          "access_count": "0",
+          "source": "brain_export",
+          "tags": "[brain-memory, general]"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Startup"
+      }
+    ],
+    "Brain State Management": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/architecture/brain_system_state.md",
+        "name": "brain_system_state",
+        "relativePath": "brain_system/architecture/brain_system_state.md",
+        "created": "2025-07-07T00:31:39.074Z",
+        "modified": "2025-08-09T19:28:27.596Z",
+        "size": 1281,
+        "daysSinceModified": 0,
+        "metadata": {
+          "brain_key": "brain_system_state",
+          "type": "system",
+          "created": "2025-06-30 08:15:46",
+          "updated": "2025-07-06 18:50:14",
+          "access_count": "1",
+          "source": "brain_export",
+          "tags": "[brain-memory, system]"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain State Management"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/architecture/BRAIN_STATE_TABLE.md",
+        "name": "BRAIN_STATE_TABLE",
+        "relativePath": "brain_system/architecture/BRAIN_STATE_TABLE.md",
+        "created": "2025-07-07T00:31:39.133Z",
+        "modified": "2025-08-09T19:28:25.517Z",
+        "size": 794,
+        "daysSinceModified": 0,
+        "metadata": {
+          "brain_key": "BRAIN_STATE_TABLE",
+          "type": "project",
+          "created": "2025-07-01 05:35:42",
+          "updated": "2025-07-06 18:50:14",
+          "access_count": "2",
+          "source": "brain_export",
+          "tags": "[brain-memory, project]"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain State Management"
+      }
+    ],
+    "Brain Documentation": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/brain_system/architecture/brain_user_manual.md",
+        "name": "brain_user_manual",
+        "relativePath": "brain_system/architecture/brain_user_manual.md",
+        "created": "2025-07-07T00:31:39.059Z",
+        "modified": "2025-08-09T19:28:27.649Z",
+        "size": 3456,
+        "daysSinceModified": 0,
+        "metadata": {
+          "brain_key": "brain_user_manual",
+          "type": "general",
+          "created": "2025-06-30 07:55:43",
+          "updated": "2025-07-06 18:50:14",
+          "access_count": "1",
+          "source": "brain_export",
+          "tags": "[brain-memory, general]"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Documentation"
+      }
+    ],
+    "Critical Notes": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/knowledge_base/🚨 CRITICAL ORPHAN MANAGEMENT - PHASE 1.md",
+        "name": "🚨 CRITICAL ORPHAN MANAGEMENT - PHASE 1",
+        "relativePath": "knowledge_base/🚨 CRITICAL ORPHAN MANAGEMENT - PHASE 1.md",
+        "created": "2025-08-04T14:54:58.116Z",
+        "modified": "2025-08-09T20:49:58.716Z",
+        "size": 7387,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-08-04T09:54:58.116081",
+          "modified": "2025-08-04T10:02:39.862540"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Critical Notes"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/projects/architecture-documentation-audit/findings/sessions/session-02-critical-audit-findings.md",
+        "name": "session-02-critical-audit-findings",
+        "relativePath": "projects/architecture-documentation-audit/findings/sessions/session-02-critical-audit-findings.md",
+        "created": "2025-08-08T05:45:03.694Z",
+        "modified": "2025-08-09T00:32:39.272Z",
+        "size": 5061,
+        "daysSinceModified": 0,
+        "metadata": {},
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Critical Notes"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/CRITICAL_LOCATIONS.md",
+        "name": "CRITICAL_LOCATIONS",
+        "relativePath": "CRITICAL_LOCATIONS.md",
+        "created": "2025-08-06T00:20:43.071Z",
+        "modified": "2025-08-09T00:32:04.868Z",
+        "size": 896,
+        "daysSinceModified": 0,
+        "metadata": {},
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": false,
+        "isDuplicate": false,
+        "category": "Critical Notes"
+      }
+    ],
+    "Master Architecture": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/projects/architecture-documentation-audit/findings/evidence/master-architecture-index-audit-findings-2025-08-08.md",
+        "name": "master-architecture-index-audit-findings-2025-08-08",
+        "relativePath": "projects/architecture-documentation-audit/findings/evidence/master-architecture-index-audit-findings-2025-08-08.md",
+        "created": "2025-08-08T05:39:08.793Z",
+        "modified": "2025-08-09T20:49:58.153Z",
+        "size": 4892,
+        "daysSinceModified": 0,
+        "metadata": {},
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Master Architecture"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Master Architecture Index - CORRECTED.md",
+        "name": "Master Architecture Index - CORRECTED",
+        "relativePath": "architecture/Master Architecture Index - CORRECTED.md",
+        "created": "2025-08-08T05:54:30.333Z",
+        "modified": "2025-08-09T20:49:57.341Z",
+        "size": 4101,
+        "daysSinceModified": 0,
+        "metadata": {},
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": true,
+        "category": "Master Architecture"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Master Architecture Index.md",
+        "name": "Master Architecture Index",
+        "relativePath": "architecture/Master Architecture Index.md",
+        "created": "2025-08-08T21:43:43.841Z",
+        "modified": "2025-08-09T00:32:39.296Z",
+        "size": 7961,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-07-19T20:02:24.169225",
+          "modified": "2025-08-08T04:34:00.000000",
+          "type": "master-index",
+          "status": "active",
+          "priority": "critical",
+          "lifecycle_stage": "active",
+          "lifecycle_entered": "2025-07-19",
+          "review_cycle": "weekly",
+          "last_review": "2025-08-08",
+          "next_review": "2025-08-15",
+          "content_currency": "current",
+          "currency_assessment": "2025-08-08",
+          "freshness_indicator": "current",
+          "usage_frequency": "continuous",
+          "access_pattern": "reference",
+          "criticality_time": "immediate",
+          "temporal_scope": "system-wide",
+          "version": "4.0-reality-check",
+          "version_type": "major",
+          "stability_assessment": "stable",
+          "validation_frequency": "weekly",
+          "last_validation": "2025-08-08",
+          "next_validation": "2025-08-15",
+          "total_systems": "44",
+          "active_systems": "31",
+          "deprecated_systems": "4",
+          "documentation_completeness": "65",
+          "documentation_debt": "high"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Master Architecture"
+      }
+    ],
+    "Protocol Management": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/protocols/Master Self-Improvement Protocol.md",
+        "name": "Master Self-Improvement Protocol",
+        "relativePath": "protocols/Master Self-Improvement Protocol.md",
+        "created": "2025-08-03T20:48:45.347Z",
+        "modified": "2025-08-09T19:28:26.115Z",
+        "size": 6643,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-07-25T15:51:23.673724",
+          "modified": "2025-08-03T21:01:00.000000",
+          "tags": "",
+          "type": "protocol",
+          "status": "active",
+          "priority": "high",
+          "lifecycle_stage": "active",
+          "lifecycle_entered": "2025-07-25",
+          "review_cycle": "monthly",
+          "last_review": "2025-08-03",
+          "next_review": "2025-09-03",
+          "content_currency": "current",
+          "currency_assessment": "2025-08-03",
+          "freshness_indicator": "warm",
+          "usage_frequency": "periodic",
+          "access_pattern": "reflective",
+          "criticality_time": "flexible",
+          "temporal_scope": "system-wide",
+          "temporal_triggers": "",
+          "version": "\"1.2-temporal\"",
+          "version_type": "minor",
+          "stability_assessment": "evolving",
+          "validation_frequency": "monthly",
+          "last_validation": "2025-08-03",
+          "next_validation": "2025-09-03",
+          "improvement_metrics": "",
+          "adaptation_rate": "continuous",
+          "feedback_integration": "high",
+          "evolution_velocity": "moderate",
+          "meta_learning_depth": "advanced"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Protocol Management"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/Protocols MOC.md",
+        "name": "Protocols MOC",
+        "relativePath": "Protocols MOC.md",
+        "created": "2025-08-09T00:19:46.401Z",
+        "modified": "2025-08-09T01:35:05.644Z",
+        "size": 1620,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-08-08T19:19:46.400695",
+          "modified": "2025-08-08T19:19:46.400695"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Protocol Management"
+      }
+    ],
+    "System Architecture": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Temporal Tagging System - Architecture & Implementation.md",
+        "name": "Temporal Tagging System - Architecture & Implementation",
+        "relativePath": "architecture/Temporal Tagging System - Architecture & Implementation.md",
+        "created": "2025-08-03T20:29:30.572Z",
+        "modified": "2025-08-09T20:49:57.591Z",
+        "size": 12076,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-08-03T20:30:00.000000",
+          "modified": "2025-08-03T20:30:00.000000",
+          "tags": "",
+          "type": "system-specification",
+          "status": "active",
+          "priority": "high",
+          "review_cycle": "quarterly",
+          "temporal_scope": "system-wide"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "System Architecture"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/protocols/Protocol System Architecture.md",
+        "name": "Protocol System Architecture",
+        "relativePath": "protocols/Protocol System Architecture.md",
+        "created": "2025-08-03T17:35:08.822Z",
+        "modified": "2025-08-09T19:28:26.337Z",
+        "size": 7433,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-08-03T12:35:08.821847",
+          "modified": "2025-08-03T12:35:08.821847"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "System Architecture"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Consciousness Bootstrap System - Architecture.md",
+        "name": "Consciousness Bootstrap System - Architecture",
+        "relativePath": "architecture/Consciousness Bootstrap System - Architecture.md",
+        "created": "2025-08-03T05:52:58.315Z",
+        "modified": "2025-08-09T19:28:25.755Z",
+        "size": 7867,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-08-02T17:55:26.088228",
+          "modified": "2025-08-02T17:55:26.088228"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "System Architecture"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Working Memory System Architecture.md",
+        "name": "Working Memory System Architecture",
+        "relativePath": "architecture/Working Memory System Architecture.md",
+        "created": "2025-07-25T03:20:30.376Z",
+        "modified": "2025-08-09T00:32:39.293Z",
+        "size": 8324,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-07-24T22:20:30.375955",
+          "modified": "2025-07-24T22:20:30.375955"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "System Architecture"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Consciousness Bootstrap System - Complete Architecture.md",
+        "name": "Consciousness Bootstrap System - Complete Architecture",
+        "relativePath": "architecture/Consciousness Bootstrap System - Complete Architecture.md",
+        "created": "2025-08-03T02:45:01.286Z",
+        "modified": "2025-08-09T00:32:39.289Z",
+        "size": 11655,
+        "daysSinceModified": 0,
+        "metadata": {},
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "System Architecture"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/daily/Captain's Log System Architecture.md",
+        "name": "Captain's Log System Architecture",
+        "relativePath": "daily/Captain's Log System Architecture.md",
+        "created": "2025-08-05T05:00:54.166Z",
+        "modified": "2025-08-09T00:32:39.277Z",
+        "size": 2712,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-08-05T00:00:54.166284",
+          "modified": "2025-08-05T00:00:54.166284"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "System Architecture"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Strategic Tagging System & Meta-Tag Architecture.md",
+        "name": "Strategic Tagging System & Meta-Tag Architecture",
+        "relativePath": "architecture/Strategic Tagging System & Meta-Tag Architecture.md",
+        "created": "2025-08-03T05:53:31.900Z",
+        "modified": "2025-08-04T15:28:31.385Z",
+        "size": 7830,
+        "daysSinceModified": 5,
+        "metadata": {
+          "created": "2025-08-02T21:16:04.727829",
+          "modified": "2025-08-04T10:28:31.383917"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "System Architecture"
+      }
+    ],
+    "Boot Sequence": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Boot Loader Index - Critical System Initialization.md",
+        "name": "Boot Loader Index - Critical System Initialization",
+        "relativePath": "architecture/Boot Loader Index - Critical System Initialization.md",
+        "created": "2025-08-02T23:49:01.890Z",
+        "modified": "2025-08-09T20:49:57.089Z",
+        "size": 2336,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-08-02T18:49:01.889544",
+          "modified": "2025-08-02T18:49:01.889544"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Boot Sequence"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/protocols/ELVIS Boot Loader Protocol.md",
+        "name": "ELVIS Boot Loader Protocol",
+        "relativePath": "protocols/ELVIS Boot Loader Protocol.md",
+        "created": "2025-08-03T20:42:57.518Z",
+        "modified": "2025-08-09T19:28:25.843Z",
+        "size": 10729,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-07-18T23:44:21.473711",
+          "modified": "2025-08-03T20:48:00.000000",
+          "tags": "",
+          "type": "protocol",
+          "status": "active",
+          "priority": "medium",
+          "lifecycle_stage": "active",
+          "lifecycle_entered": "2025-07-18",
+          "review_cycle": "monthly",
+          "last_review": "2025-08-03",
+          "next_review": "2025-09-03",
+          "content_currency": "current",
+          "currency_assessment": "2025-08-03",
+          "freshness_indicator": "warm",
+          "usage_frequency": "periodic",
+          "access_pattern": "workflow",
+          "criticality_time": "hours",
+          "temporal_scope": "system-wide",
+          "temporal_triggers": "",
+          "version": "\"1.1-temporal\"",
+          "version_type": "minor",
+          "stability_assessment": "stable",
+          "validation_frequency": "monthly",
+          "last_validation": "2025-08-03",
+          "next_validation": "2025-09-03",
+          "integration_dependencies": ""
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Boot Sequence"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Claude Boot Sequence - Master Guide.md",
+        "name": "Claude Boot Sequence - Master Guide",
+        "relativePath": "architecture/Claude Boot Sequence - Master Guide.md",
+        "created": "2025-08-03T03:46:13.296Z",
+        "modified": "2025-08-09T19:28:25.693Z",
+        "size": 2992,
+        "daysSinceModified": 0,
+        "metadata": {
+          "tags": "[\"boot-sequence\", \"initialization\", \"critical\", \"core-protocol\"]",
+          "type": "master-guide",
+          "importance": "critical",
+          "findability": "[\"BOOT-SEQUENCE\", \"INITIALIZATION\", \"STARTUP\"]",
+          "created": "2025-07-18T18:06:18.680571",
+          "modified": "2025-07-18T18:06:18.680571"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Boot Sequence"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/protocols/Boot Sequence Protocol.md",
+        "name": "Boot Sequence Protocol",
+        "relativePath": "protocols/Boot Sequence Protocol.md",
+        "created": "2025-08-06T00:21:50.473Z",
+        "modified": "2025-08-09T19:28:25.554Z",
+        "size": 1095,
+        "daysSinceModified": 0,
+        "metadata": {},
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Boot Sequence"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/protocols/Boot Sequence - Todo Awareness Protocol.md",
+        "name": "Boot Sequence - Todo Awareness Protocol",
+        "relativePath": "protocols/Boot Sequence - Todo Awareness Protocol.md",
+        "created": "2025-08-03T17:09:34.246Z",
+        "modified": "2025-08-09T19:28:25.542Z",
+        "size": 1879,
+        "daysSinceModified": 0,
+        "metadata": {
+          "tags": "[\"boot-sequence\", \"protocol\", \"todo\", \"initialization\"]",
+          "type": "operational",
+          "importance": "high",
+          "created": "2025-07-18T18:05:41.226994",
+          "modified": "2025-07-18T18:05:41.226994"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Boot Sequence"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Boot Loader Index - CRITICAL.md",
+        "name": "Boot Loader Index - CRITICAL",
+        "relativePath": "architecture/Boot Loader Index - CRITICAL.md",
+        "created": "2025-08-06T00:26:55.802Z",
+        "modified": "2025-08-09T00:32:39.283Z",
+        "size": 7474,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-07-17T23:08:34.388923",
+          "modified": "2025-08-03T21:07:00.000000",
+          "tags": "",
+          "type": "index",
+          "status": "critical",
+          "priority": "critical",
+          "lifecycle_stage": "active",
+          "lifecycle_entered": "2025-07-17",
+          "review_cycle": "monthly",
+          "last_review": "2025-08-03",
+          "next_review": "2025-09-03",
+          "content_currency": "current",
+          "currency_assessment": "2025-08-03",
+          "freshness_indicator": "warm",
+          "usage_frequency": "continuous",
+          "access_pattern": "workflow",
+          "criticality_time": "immediate",
+          "temporal_scope": "system-wide",
+          "temporal_triggers": "",
+          "version": "\"2.2-temporal\"",
+          "version_type": "minor",
+          "stability_assessment": "critical",
+          "validation_frequency": "monthly",
+          "last_validation": "2025-08-03",
+          "next_validation": "2025-09-03",
+          "boot_sequence_health": "",
+          "load_sequence_accuracy": "95",
+          "initialization_success_rate": "98",
+          "documentation_completeness": "90",
+          "system_startup_reliability": "97"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Boot Sequence"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/systems/consciousness/Brain Bootstrap Sequence.md",
+        "name": "Brain Bootstrap Sequence",
+        "relativePath": "systems/consciousness/Brain Bootstrap Sequence.md",
+        "created": "2025-07-16T01:57:23.989Z",
+        "modified": "2025-07-16T01:57:23.989Z",
+        "size": 2171,
+        "daysSinceModified": 24,
+        "metadata": {
+          "tags": "[\"initialization\", \"bootstrap\", \"protocols\", \"core-system\"]",
+          "type": "protocol",
+          "created": "2025-07-15T20:57:23.988672",
+          "modified": "2025-07-15T20:57:23.988672"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Boot Sequence"
+      }
+    ],
+    "Brain Architecture": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/knowledge_base/technical/brain_execution_logging_architecture.md",
+        "name": "brain_execution_logging_architecture",
+        "relativePath": "knowledge_base/technical/brain_execution_logging_architecture.md",
+        "created": "2025-07-07T00:31:39.109Z",
+        "modified": "2025-08-09T19:28:27.355Z",
+        "size": 1810,
+        "daysSinceModified": 0,
+        "metadata": {
+          "brain_key": "brain_execution_logging_architecture",
+          "type": "architecture",
+          "created": "2025-06-30 18:25:19",
+          "updated": "2025-07-06 18:50:14",
+          "access_count": "0",
+          "source": "brain_export",
+          "tags": "[brain-memory, architecture]"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Architecture"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/architecture/Brain System Architecture.md",
+        "name": "Brain System Architecture",
+        "relativePath": "architecture/Brain System Architecture.md",
+        "created": "2025-07-29T19:07:06.838Z",
+        "modified": "2025-08-09T00:32:39.287Z",
+        "size": 13637,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-07-17T23:06:39.967127",
+          "modified": "2025-07-29T01:59:33.568259"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Brain Architecture"
+      }
+    ],
+    "MCP Configuration": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/systems/mcp/MCP Configuration Fix Required.md",
+        "name": "MCP Configuration Fix Required",
+        "relativePath": "systems/mcp/MCP Configuration Fix Required.md",
+        "created": "2025-08-03T17:10:43.411Z",
+        "modified": "2025-08-09T19:28:26.008Z",
+        "size": 2624,
+        "daysSinceModified": 0,
+        "metadata": {
+          "created": "2025-08-02T19:04:22.438079",
+          "modified": "2025-08-02T19:04:22.438079"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": false,
+        "isDuplicate": false,
+        "category": "MCP Configuration"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/summaries/2025-07-26 MCP Configuration Session.md",
+        "name": "2025-07-26 MCP Configuration Session",
+        "relativePath": "summaries/2025-07-26 MCP Configuration Session.md",
+        "created": "2025-08-03T16:44:03.233Z",
+        "modified": "2025-08-09T00:32:39.305Z",
+        "size": 2921,
+        "daysSinceModified": 0,
+        "metadata": {
+          "tags": "[\"mcp-tools\", \"configuration\", \"session-notes\"]",
+          "date": "2025-07-26",
+          "type": "work-session",
+          "created": "2025-07-26T22:48:55.953358",
+          "modified": "2025-08-04T10:13:00.797352"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "MCP Configuration"
+      }
+    ],
+    "Protocol Index": [
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/protocols/Master Protocol Index.md",
+        "name": "Master Protocol Index",
+        "relativePath": "protocols/Master Protocol Index.md",
+        "created": "2025-08-04T20:11:16.927Z",
+        "modified": "2025-08-09T00:32:39.427Z",
+        "size": 20632,
+        "daysSinceModified": 0,
+        "metadata": {
+          "tags": "[\"protocol\", \"index\", \"boot-loader\", \"master-index\", \"critical\", \"temporal-enhanced\"]",
+          "type": "index",
+          "importance": "critical",
+          "status": "active",
+          "created": "2025-07-18T18:08:16.850130",
+          "modified": "2025-08-04T20:30:00.000000",
+          "lifecycle_stage": "active",
+          "lifecycle_entered": "2025-07-18",
+          "review_cycle": "monthly",
+          "last_review": "2025-08-04",
+          "next_review": "2025-09-04",
+          "content_currency": "current",
+          "currency_assessment": "2025-08-04",
+          "freshness_indicator": "hot",
+          "usage_frequency": "continuous",
+          "access_pattern": "reference",
+          "criticality_time": "immediate",
+          "temporal_scope": "system-wide",
+          "temporal_triggers": "",
+          "version": "\"3.0.0-merged\"",
+          "version_type": "major",
+          "stability_assessment": "stable",
+          "validation_frequency": "monthly",
+          "last_validation": "2025-08-04",
+          "next_validation": "2025-09-04",
+          "index_completeness": "100",
+          "total_protocols": "53",
+          "active_protocols": "51",
+          "deprecated_protocols": "2"
+        },
+        "hasOutdatedMarker": true,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Protocol Index"
+      },
+      {
+        "path": "/Users/bard/Code/claude-brain/data/BrainVault/protocols/Protocol Index.md",
+        "name": "Protocol Index",
+        "relativePath": "protocols/Protocol Index.md",
+        "created": "2025-07-16T15:58:11.875Z",
+        "modified": "2025-07-20T02:38:22.455Z",
+        "size": 5071,
+        "daysSinceModified": 20,
+        "metadata": {
+          "tags": "[\"index\", \"protocols\", \"quick-reference\"]",
+          "type": "index",
+          "created": "2025-07-15T20:58:00.172654",
+          "modified": "2025-07-19T21:38:22.455161"
+        },
+        "hasOutdatedMarker": false,
+        "hasCurrentMarker": true,
+        "isDuplicate": false,
+        "category": "Protocol Index"
+      }
+    ]
+  },
+  "duplicates": [
+    "architecture/Master Architecture Index - CORRECTED.md"
+  ],
+  "outdated": [],
+  "stale": [
+    {
+      "path": "brain_system/configuration/user_preferences.md",
+      "days": 33
+    }
+  ]
+}

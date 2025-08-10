@@ -1,0 +1,27 @@
+{
+  "name": "claude-brain-mercury",
+  "version": "2.0.0",
+  "description": "Mercury Protocol Enhancement - Phase 2 Implementation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.122",
+    "typescript": "^5.9.2"
+  },
+  "keywords": [
+    "ai",
+    "learning",
+    "context-analysis",
+    "mercury-protocol",
+    "brain-manager"
+  ],
+  "author": "Brain Manager Development Team",
+  "license": "MIT"
+}

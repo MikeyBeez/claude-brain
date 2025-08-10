@@ -1,0 +1,17 @@
+{
+  "deploymentId": "deployment_1754783708816",
+  "timestamp": "2025-08-09T23:55:08.887Z",
+  "options": {
+    "mode": "gradual",
+    "rollout": 10,
+    "dryRun": false,
+    "backup": true,
+    "monitor": true,
+    "fallback": true,
+    "dry-run": true
+  },
+  "backupFiles": [
+    "index.js.backup",
+    "config.js.backup"
+  ]
+}

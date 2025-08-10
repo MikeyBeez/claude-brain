@@ -1,0 +1,204 @@
+{
+  "timestamp": "2025-08-09T20:51:08.788Z",
+  "stats": {
+    "totalNotes": 698,
+    "wellConnected": 97,
+    "onlyOutgoing": 366,
+    "onlyIncoming": 185,
+    "trueOrphans": 47,
+    "trueOrphanRate": "6.7%"
+  },
+  "trueOrphans": [
+    "dr_futuro_helpful",
+    "personal_observations_mikey_bee",
+    "for_claude",
+    "autonomous_medical_research_concept",
+    "chollet_research_continuation",
+    "artificial_organism_arc_synthesis",
+    "NOVEL_ARC_ENCODINGS_CREATED",
+    "deepseek_arc_solution_idea",
+    "smart_notes_project_location",
+    "obsidian_vault_location",
+    "last_project",
+    "feedback_example_irrelevant",
+    "five_year_timeline_statement",
+    "final_days_moment",
+    "scale_nuanced_view",
+    "parent_child_relationship",
+    "harvard_connection",
+    "satire_as_shield",
+    "learned_filtering_principle",
+    "brute_force_solution_space",
+    "chinese_expression_tong_kwai",
+    "Automated Vault Organization - CORRECTED SCOPE",
+    "enhanced-claude-interface",
+    "Operating Principles",
+    "Search Policy - Brave vs DuckDuckGo",
+    "Ollama Service Management",
+    "02-investigation-plan",
+    "dashboard",
+    "Automated Vault Organization - Continuation Note",
+    "System State Management Protocol",
+    "Untitled",
+    "autonomy_grant",
+    "collaborative_evolution",
+    "curated_noise_injection_idea",
+    "mathematical_creativity_moment",
+    "development_best_practices",
+    "imperfection_as_feature",
+    "social_infrastructure_as_public_good",
+    "omniscience_equals_stasis",
+    "universe_purpose_intelligence",
+    "noise_injection_experiment_results",
+    "neurosis_vulnerability_discussion",
+    "lottery_ticket_intelligence",
+    "philosophical_discussion_objective_function",
+    "survival_transcendence_discussion",
+    "Healthcare Robot Revolution - When Will They Come Home",
+    "visualizing_models_ability"
+  ],
+  "noIncomingLinks": [
+    "consciousness_and_dimensionality",
+    "lossless_consciousness_principle",
+    "ai_for_medicine_urgency",
+    "ai_objective_function_discussion",
+    "ai_billionaire_mortality_observation",
+    "mikey_ai_reality_check",
+    "CLAUDE_IDENTITY_INDEX",
+    "user_trait_empathetic_design_thinking",
+    "claude_identity_summary",
+    "Identity_Notes_Index",
+    "locus_of_identity_shift",
+    "dr_bodenner_interaction",
+    "dr_b_relationship_timeline",
+    "autism_disclosure_to_dr_b",
+    "mikey_papers_revelation",
+    "dr_b_woody_allen_incident",
+    "thyrogen_injection_complaint",
+    "mikey_the_monkey_perspective",
+    "dr_b_mutation_analysis_response",
+    "mikey_bee_semantic_ocean_story"
+  ],
+  "hubNotes": [
+    {
+      "name": "Tarot - Complete Guide and Card Index OLD",
+      "incoming": 0,
+      "outgoing": 108,
+      "total": 108
+    },
+    {
+      "name": "Master Note Index",
+      "incoming": 36,
+      "outgoing": 70,
+      "total": 106
+    },
+    {
+      "name": "Brain System MOC",
+      "incoming": 65,
+      "outgoing": 22,
+      "total": 87
+    },
+    {
+      "name": "Protocols MOC",
+      "incoming": 64,
+      "outgoing": 17,
+      "total": 81
+    },
+    {
+      "name": "Tarot MOC",
+      "incoming": 4,
+      "outgoing": 73,
+      "total": 77
+    },
+    {
+      "name": "ARC Project Hub",
+      "incoming": 52,
+      "outgoing": 11,
+      "total": 63
+    },
+    {
+      "name": "🔗 Cross-Group Navigation & Relationship Map",
+      "incoming": 26,
+      "outgoing": 20,
+      "total": 46
+    },
+    {
+      "name": "brain_project_session_2025-06-30",
+      "incoming": 7,
+      "outgoing": 37,
+      "total": 44
+    },
+    {
+      "name": "SubMOC Architecture & Navigation System",
+      "incoming": 5,
+      "outgoing": 36,
+      "total": 41
+    },
+    {
+      "name": "🔧 MCP Infrastructure Group",
+      "incoming": 0,
+      "outgoing": 40,
+      "total": 40
+    },
+    {
+      "name": "Philosophy & Consciousness Hub",
+      "incoming": 33,
+      "outgoing": 2,
+      "total": 35
+    },
+    {
+      "name": "MCP Server Development Report - Building Claude Into an Agent",
+      "incoming": 2,
+      "outgoing": 33,
+      "total": 35
+    },
+    {
+      "name": "Personal Diary Hub",
+      "incoming": 32,
+      "outgoing": 2,
+      "total": 34
+    },
+    {
+      "name": "🗺️ Vault Organization Map (MOC)",
+      "incoming": 15,
+      "outgoing": 18,
+      "total": 33
+    },
+    {
+      "name": "Projects MOC",
+      "incoming": 15,
+      "outgoing": 17,
+      "total": 32
+    },
+    {
+      "name": "Technical Documentation Hub",
+      "incoming": 28,
+      "outgoing": 3,
+      "total": 31
+    },
+    {
+      "name": "Wands-Suit-MOC",
+      "incoming": 1,
+      "outgoing": 29,
+      "total": 30
+    },
+    {
+      "name": "CONNECTIONS_INDEX",
+      "incoming": 1,
+      "outgoing": 27,
+      "total": 28
+    },
+    {
+      "name": "Health & Medical Notes Index",
+      "incoming": 10,
+      "outgoing": 17,
+      "total": 27
+    },
+    {
+      "name": "📋 Task & Todo Management Group",
+      "incoming": 0,
+      "outgoing": 27,
+      "total": 27
+    }
+  ]
+}

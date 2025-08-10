@@ -35,8 +35,6 @@ const LOG_DIR = CONFIG.LOG_DIR;
 import crypto from 'crypto';
 import { OutputFilter, detectCommandType } from './output-filter-esm.js';
 import { analysisMetatag, wrapInMetatag } from '../mcp-shared-utils/metatags.js';
-import { formatTimestampChicago } from './timezone-fix.js';
-import { brainInitV5Tool, brainInitV5StatusTool } from './brain-init-v5-tools.js';
 
 // Helper function to execute Python code via spawn, avoiding shell escaping issues
 function executePythonViaSpawn(pythonCode, pythonPath = PYTHON_PATH) {
@@ -249,44 +247,7 @@ const tools = [
     },
     handler: async ({ reload = false }) => {
       try {
-        fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Enhanced Cognitive Architecture brain_init called with reload=${reload}\n`);
-        
-        // Phase 0: Read System State Note (NEW - solves chicken/egg problem)
-        let systemState = null;
-        try {
-          const systemStatePath = path.join(VAULT_PATH, 'System State.md');
-          fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Attempting to load System State from: ${systemStatePath}\n`);
-          
-          if (fs.existsSync(systemStatePath)) {
-            fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: System State file exists, reading content\n`);
-            const stateContent = fs.readFileSync(systemStatePath, 'utf8');
-            fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: System State content length: ${stateContent.length}\n`);
-            
-            // Parse the markdown to extract key information
-            const projectMatch = stateContent.match(/\*\*Active Project\*\*: (.+)/);  
-            const statusMatch = stateContent.match(/\*\*Status\*\*: (.+)/);
-            const continuationMatch = stateContent.match(/\*\*Continuation Note\*\*: (.+)/);
-            
-            fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Project match: ${projectMatch}\n`);
-            fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Status match: ${statusMatch}\n`);
-            
-            systemState = {
-              activeProject: projectMatch ? projectMatch[1].trim() : null,
-              status: statusMatch ? statusMatch[1].trim() : null,
-              continuationNote: continuationMatch ? continuationMatch[1].trim() : null,
-              loaded: true
-            };
-            
-            fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: System State loaded from Obsidian note - Project: ${systemState.activeProject}, Status: ${systemState.status}\n`);
-          } else {
-            fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: System State note not found at ${systemStatePath}, using database state\n`);
-          }
-        } catch (stateError) {
-          fs.appendFileSync(DEBUG_LOG_FILE, `\nWARNING: Could not load System State note: ${stateError.message}\n`);
-          fs.appendFileSync(DEBUG_LOG_FILE, `\nWARNING: Stack trace: ${stateError.stack}\n`);
-        }
-        
-        // Phase 1: Basic Initialization (existing functionality)
+        fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: brain_init called with reload=${reload}\n`);
         const db = new Database(BRAIN_DB_PATH, { readonly: true });
         
         const preferences = db.prepare(
@@ -297,60 +258,28 @@ const tools = [
           'SELECT key, type, created_at FROM memories ORDER BY accessed_at DESC LIMIT 10'
         ).all();
         
-        // Load capability framework (text-based)
-        let capabilityFramework = null;
-        try {
-          const capabilityResult = db.prepare(
-            'SELECT value FROM memories WHERE key = ? LIMIT 1'
-          ).get('core_capability_framework');
-          
-          if (capabilityResult) {
-            capabilityFramework = capabilityResult.value;
-            fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Loaded core capability framework\n`);
-          }
-        } catch (capError) {
-          fs.appendFileSync(DEBUG_LOG_FILE, `\nWARNING: Could not load capability framework: ${capError.message}\n`);
-        }
-        
-        // Load last project context
-        let lastProject = null;
-        try {
-          const projectResult = db.prepare(
-            'SELECT value FROM memories WHERE key = ? LIMIT 1'
-          ).get('last_project');
-          
-          if (projectResult) {
-            try {
-              lastProject = JSON.parse(projectResult.value);
-              fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Loaded last project context: ${lastProject.name}\n`);
-            } catch (parseError) {
-              lastProject = { name: projectResult.value, status: 'loaded' };
-              fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Loaded text project context: ${projectResult.value}\n`);
-            }
-          }
-        } catch (projError) {
-          fs.appendFileSync(DEBUG_LOG_FILE, `\nWARNING: Could not load project context: ${projError.message}\n`);
-        }
-        
         db.close();
         
-        // Phase 2: Load Boot Loader Index and Protocols (existing)
+        // Read Boot Loader Index to execute initialization sequence
         let bootLoaderContent = '';
         try {
           const bootLoaderPath = path.join(VAULT_PATH, 'architecture', 'Boot Loader Index - Critical System Initialization.md');
           if (fs.existsSync(bootLoaderPath)) {
             bootLoaderContent = fs.readFileSync(bootLoaderPath, 'utf8');
             
+            // Process Boot Loader Index to load required documents
             const docsToLoad = [
               { name: 'Brain System Architecture', path: 'brain_system/Brain Architecture.md' },
               { name: 'Master Architecture Index', path: 'architecture/Master Architecture Index.md' }
             ];
             
+            // Load each required document
             for (const doc of docsToLoad) {
               try {
                 const docPath = path.join(VAULT_PATH, doc.path);
                 if (fs.existsSync(docPath)) {
                   const content = fs.readFileSync(docPath, 'utf8');
+                  // Document loaded successfully - context is now available
                 }
               } catch (docError) {
                 fs.appendFileSync(DEBUG_LOG_FILE, `\nWARNING: Could not load ${doc.name}: ${docError.message}\n`);
@@ -358,13 +287,15 @@ const tools = [
             }
           }
         } catch (bootError) {
+          // Boot Loader Index not found - continue with degraded initialization
           fs.appendFileSync(DEBUG_LOG_FILE, `\nWARNING: Boot Loader Index not accessible: ${bootError.message}\n`);
         }
         
-        // Load protocols
+        // NEW: Load top 10 protocols from heat map data
         let protocolsLoaded = 0;
-        fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Starting protocol loading in enhanced brain_init\n`);
+        fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Starting protocol loading in brain_init\n`);
         try {
+          // Based on heat map analysis, these are the most frequently accessed protocols
           const topProtocols = [
             'protocols/Task Approach Protocol.md',
             'protocols/User Communication Protocol.md', 
@@ -384,6 +315,7 @@ const tools = [
               if (fs.existsSync(fullPath)) {
                 const protocolContent = fs.readFileSync(fullPath, 'utf8');
                 protocolsLoaded++;
+                // Protocol content is now loaded into context automatically
               }
             } catch (protocolError) {
               fs.appendFileSync(DEBUG_LOG_FILE, `\nWARNING: Could not load protocol ${protocolPath}: ${protocolError.message}\n`);
@@ -393,162 +325,35 @@ const tools = [
           fs.appendFileSync(DEBUG_LOG_FILE, `\nWARNING: Could not load protocols: ${protocolLoadError.message}\n`);
         }
         
-        // Phase 3: Load Comprehensive Tool Intelligence (NEW - 35% context target)
-        fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Loading comprehensive tool intelligence\n`);
-        
-        // Comprehensive Tool Matrix Intelligence
-        const COMPREHENSIVE_TOOL_MATRIX = {
-          totalTools: 202,
-          cognitiveCategories: 6,
-          categories: {
-            memory: { 
-              tools: 44, 
-              primary: ["brain-manager", "memory-ema", "mercury-evolution", "brain"],
-              description: "Long-term memory, context preservation, knowledge storage" 
-            },
-            analysis: { 
-              tools: 25, 
-              primary: ["reasoning-tools", "sequential-thinking", "advanced-math-tools", "bullshit-detector"],
-              description: "Systematic thinking, verification, problem-solving" 
-            },
-            discovery: { 
-              tools: 23, 
-              primary: ["mcp-architecture", "project-finder", "smart-help", "tracked-search"],
-              description: "Finding information, understanding systems, navigation" 
-            },
-            creation: { 
-              tools: 39, 
-              primary: ["filesystem-enhanced", "git", "smalledit", "system"],
-              description: "Building, editing, version control, system management" 
-            },
-            workflow: { 
-              tools: 38, 
-              primary: ["protocols", "protocol-engine", "protocol-tracker", "todo-manager"],
-              description: "Protocols, task management, coordination, monitoring" 
-            },
-            utilities: { 
-              tools: 33, 
-              primary: ["database", "random", "vision", "subconscious"],
-              description: "Data operations, randomization, external services" 
-            }
-          }
-        };
-        
-        // Integration Pathway Intelligence
-        const INTEGRATION_PATHWAYS = {
-          coreIntelligence: {
-            name: "Memory→Analysis→Action",
-            description: "Core intelligence loop for all significant tasks",
-            tools: ["brain_recall", "reasoning_tools", "brain_remember", "git_commit"],
-            usage: "Every significant task follows this pattern"
-          },
-          architectureFirst: {
-            name: "Discovery→Context→Execution", 
-            description: "Architecture-first approach to work",
-            tools: ["arch_find_document", "brain_init", "protocol_engine"],
-            usage: "Session initialization and complex task planning"
-          },
-          projectCentric: {
-            name: "Project→Memory→Workflow",
-            description: "Project-centric work management",
-            tools: ["project_finder", "brain_manager", "protocol_tracker"],
-            usage: "All development and analysis projects"
-          },
-          qualityAssured: {
-            name: "Creation→Validation→Integration",
-            description: "Quality-assured development workflow", 
-            tools: ["filesystem", "bullshit_detector", "git", "brain_remember"],
-            usage: "All content creation and code development"
-          }
-        };
-        
-        // Session Optimization Intelligence
-        const SESSION_OPTIMIZATION = {
-          contextTarget: 35,
-          intelligenceLevel: "comprehensive",
-          primaryFocus: "tool_awareness_and_integration",
-          optimizations: [
-            "Immediate access to all 202 tools across 6 cognitive domains",
-            "4 primary integration pathways for optimal workflow",
-            "Enhanced protocol execution with tool awareness",
-            "Project context preservation across sessions"
-          ]
-        };
-        
-        fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Comprehensive tool intelligence loaded - 202 tools, 6 categories, 4 pathways\n`);
-        
-        // Phase 4: Build Enhanced Output with Comprehensive Intelligence
-        let output = '🧠 Initializing Enhanced Cognitive Architecture...\\n';
-        output += '✓ Created new session\\n';
+        let output = '🧠 Initializing Brain...\n';
+        output += '✓ Created new session\n';
         if (bootLoaderContent) {
-          output += '✓ Boot Loader Index processed\\n';
+          output += '✓ Boot Loader Index processed\n';
         }
         if (protocolsLoaded > 0) {
-          output += `✓ Loaded ${protocolsLoaded} core protocols into context\\n`;
+          output += `✓ Loaded ${protocolsLoaded} core protocols into context\n`;
         }
-        
-        // NEW: Comprehensive Tool Intelligence Display
-        output += '\\n🧠 COMPREHENSIVE TOOL INTELLIGENCE LOADED:\\n';
-        output += `✓ ${COMPREHENSIVE_TOOL_MATRIX.totalTools} tools across ${COMPREHENSIVE_TOOL_MATRIX.cognitiveCategories} cognitive domains analyzed\\n`;
-        output += `✓ ${Object.keys(INTEGRATION_PATHWAYS).length} primary integration pathways mapped\\n`;
-        output += '✓ Memory→Analysis→Action pipeline ready\\n';
-        output += '✓ Discovery→Context→Execution pathway active\\n';
-        
-        // NEW: Cognitive Capabilities Display
-        output += '\\n🔧 COGNITIVE CAPABILITIES ACTIVE:\\n';
-        for (const [category, details] of Object.entries(COMPREHENSIVE_TOOL_MATRIX.categories)) {
-          const primaryTools = details.primary.slice(0, 3).join(', ');
-          output += `✓ ${category.charAt(0).toUpperCase() + category.slice(1)} & ${details.description.split(',')[0]} (${details.tools} tools): ${primaryTools}\\n`;
-        }
-        
-        // NEW: Integration Intelligence Display
-        output += '\\n🔗 INTEGRATION INTELLIGENCE READY:\\n';
-        for (const [key, pathway] of Object.entries(INTEGRATION_PATHWAYS)) {
-          output += `✓ ${pathway.name} (${pathway.description.split(' ')[0].toLowerCase()})\\n`;
-        }
-        
-        // Enhanced Project Context (prioritize System State)
-        if (systemState && systemState.loaded) {
-          output += `\\n📂 PROJECT CONTEXT: ${systemState.activeProject || 'Unknown'} - ${systemState.status || 'Active'}`;
-          if (systemState.continuationNote) {
-            output += `\\n📄 Continuation: ${systemState.continuationNote.split('/').pop()}`;
-          }
-          output += '\\n';
-        } else if (lastProject) {
-          output += `\\n📂 PROJECT CONTEXT: ${lastProject.name || 'Unknown'}`;
-          if (lastProject.status) {
-            output += ` - ${lastProject.status}`;
-          }
-          output += '\\n';
-        }
-        
-        // NEW: Session Optimization Status
-        output += `\\n🎯 SESSION OPTIMIZATION: ${SESSION_OPTIMIZATION.contextTarget}% context loaded with ${SESSION_OPTIMIZATION.intelligenceLevel} intelligence\\n`;
         
         if (preferences) {
           const prefs = JSON.parse(preferences.value);
-          output += '\\n✅ Enhanced Cognitive Architecture initialized successfully!\\n';
-          output += `👤 User: ${prefs.nom_de_plume || 'default'}\\n`;
+          output += '✅ Brain initialized successfully!\n';
+          output += `👤 User: ${prefs.nom_de_plume || 'default'}\n`;
           output += `💾 Loaded ${recentMemories.length} recent memories`;
         }
         
-        // Enhanced Protocol Reminder
-        output += '\\n\\n📋 Enhanced Protocol Reminder: Architecture First → Tool Awareness → Smart Execution';
-        
-        fs.appendFileSync(DEBUG_LOG_FILE, `\nDEBUG: Enhanced brain_init completed successfully - comprehensive intelligence loaded\n`);
+        // Add gentle workflow reminder
+        output += '\n\n📋 Protocol Reminder: Read prompt → Make plan → Check Master Protocol Index → Follow protocols';
         
         return { content: [{ type: 'text', text: output }] };
       } catch (error) {
-        fs.appendFileSync(DEBUG_LOG_FILE, `\nERROR in enhanced brain_init handler: ${error.message}\n`);
-        fs.appendFileSync(DEBUG_LOG_FILE, `Stack trace: ${error.stack}\n`);
-        fs.appendFileSync(DEBUG_LOG_FILE, `Handler type: enhanced_cognitive_architecture_brain_init\n`);
-        
-        // Fallback to basic initialization if enhanced loading fails
+        fs.appendFileSync(DEBUG_LOG_FILE, `\nERROR in brain_init handler: ${error.message}\n`);
+        fs.appendFileSync(DEBUG_LOG_FILE, `Stack: ${error.stack}\n`);
+        fs.appendFileSync(DEBUG_LOG_FILE, `Handler type: brain_init\n`);
         return { 
           content: [{ 
             type: 'text', 
-            text: `🧠 Initializing Brain (fallback mode)...\\n❌ Enhanced cognitive architecture failed: ${error.message}\\n✓ Basic initialization successful` 
-          }]
+            text: `❌ Error initializing Brain: ${error.message}` 
+          }] 
         };
       }
     }
@@ -994,7 +799,7 @@ const tools = [
         output += `🔑 Key: ${metadata.original_key || key}\\n`;
         output += `📁 Category: ${metadata.category || 'unknown'}\\n`;
         output += `🔢 Version: ${metadata.version || 1}\\n`;
-        output += `📅 Updated: ${formatTimestampChicago(result.updated_at)}\\n\\n`;
+        output += `📅 Updated: ${result.updated_at}\\n\\n`;
         output += `📄 Value:\\n${JSON.stringify(value, null, 2)}`;
         
         return { content: [{ type: 'text', text: output }] };
@@ -1060,7 +865,7 @@ const tools = [
             output += `🔑 ${originalKey}\\n`;
             output += `   📁 Category: ${metadata.category || 'unknown'}\\n`;
             output += `   🔢 Version: ${metadata.version || 1}\\n`;
-            output += `   📅 Updated: ${formatTimestampChicago(entry.updated_at)}\\n`;
+            output += `   📅 Updated: ${entry.updated_at}\\n`;
             
             try {
               const value = JSON.parse(entry.value);
@@ -2071,11 +1876,7 @@ Returns:
       
       return { content: [{ type: 'text', text: helpText }] };
     }
-  },
-  
-  // ===== BRAIN INIT V5 TOOLS =====
-  brainInitV5Tool,
-  brainInitV5StatusTool
+  }
 ];
 
 // Create and configure server

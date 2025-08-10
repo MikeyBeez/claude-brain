@@ -1,0 +1,36 @@
+{
+  "processing": {
+    "ollama_model": "llama3.2",
+    "max_concurrent_tasks": 2,
+    "rate_limit_per_minute": 8,
+    "analysis_timeout": 90
+  },
+  "auto_apply": {
+    "enabled": true,
+    "confidence_threshold": 0.75,
+    "strength_threshold": 7.0,
+    "max_per_hour": 10,
+    "safe_connection_types": [
+      "temporal",
+      "project",
+      "thematic"
+    ]
+  },
+  "monitoring": {
+    "scan_interval_seconds": 60,
+    "full_analysis_interval_hours": 24,
+    "cleanup_interval_hours": 168
+  },
+  "safety": {
+    "max_file_size_mb": 5,
+    "skip_patterns": [
+      ".git",
+      ".obsidian",
+      "temp",
+      ".temp",
+      "__pycache__",
+      ".DS_Store"
+    ],
+    "backup_before_modify": true
+  }
+}
