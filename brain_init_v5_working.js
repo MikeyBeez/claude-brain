@@ -26,7 +26,9 @@ class BrainInitV5Working {
     this.db = new Database(CONFIG.BRAIN_DB_PATH);
     this.contextBudget = 0.30; // 30% of context window
     this.protocolOverhead = 0.05; // 5% reserved for fundamental protocols
+    this.memoryOverhead = 0.10; // 10% reserved for latest memories
     this.maxContextItems = 25;
+    this.maxLatestMemories = 25;
     this.initialized = false;
   }
 
@@ -49,10 +51,13 @@ class BrainInitV5Working {
       // 4. Load fundamental protocols
       const fundamentalProtocols = await this.loadFundamentalProtocols();
       
-      // 5. Load context with budget management (adjusted for protocol overhead)
+      // 5. Load latest memories for immediate context
+      const latestMemories = await this.loadLatestMemories();
+      
+      // 6. Load context with budget management (adjusted for protocol overhead)
       const loadedContext = this.loadContextWithBudget(contextItems);
       
-      // 6. Initialize session continuity
+      // 7. Initialize session continuity
       const sessionData = await this.initializeSessionContinuity(intent);
       
       const duration = Date.now() - startTime;
@@ -62,6 +67,7 @@ class BrainInitV5Working {
         status: 'success',
         message: '🧠 Enhanced Cognitive Architecture initialized successfully',
         contextLoaded: loadedContext.length,
+        memoriesLoaded: latestMemories.length,
         protocolsActivated: protocols.length + fundamentalProtocols.length,
         sessionStatus: 'enhanced_v5_initialized',
         
@@ -88,11 +94,12 @@ class BrainInitV5Working {
           contextBudgetUsed: this.contextBudget,
           itemsPrioritized: contextItems.length,
           itemsLoaded: loadedContext.length,
+          latestMemoriesLoaded: latestMemories.length,
           protocolsDetected: protocols.length,
           fundamentalProtocolsLoaded: fundamentalProtocols.length
         },
         
-        summary: this.generateSessionSummary(intent, loadedContext, [...fundamentalProtocols, ...protocols]),
+        summary: this.generateSessionSummary(intent, loadedContext, [...fundamentalProtocols, ...protocols], latestMemories),
         
         // Session continuity data
         sessionContinuity: sessionData
@@ -322,11 +329,11 @@ class BrainInitV5Working {
   }
 
   /**
-   * Load context with budget management (adjusted for protocol overhead)
+   * Load context with budget management (adjusted for protocol and memory overhead)
    */
   loadContextWithBudget(contextItems) {
     const loaded = [];
-    let budgetUsed = this.protocolOverhead; // Start with protocol overhead
+    let budgetUsed = this.protocolOverhead + this.memoryOverhead; // Start with overhead
     const availableBudget = this.contextBudget;
     
     for (const item of contextItems) {
@@ -396,9 +403,10 @@ class BrainInitV5Working {
   /**
    * Generate session summary
    */
-  generateSessionSummary(intent, context, protocols) {
+  generateSessionSummary(intent, context, protocols, memories) {
+    const memoryInfo = memories ? ` and ${memories.length} latest memories` : '';
     return `Initialized enhanced cognitive architecture for ${intent.primary} session. ` +
-           `Loaded ${context.length} relevant context items with ${protocols.length} protocols activated. ` +
+           `Loaded ${context.length} relevant context items${memoryInfo} with ${protocols.length} protocols activated. ` +
            `System ready for intelligent assistance.`;
   }
 
@@ -476,6 +484,63 @@ class BrainInitV5Working {
 
     console.log(`[BrainInitV5Working] Loaded ${loadedProtocols.length - 1}/5 fundamental protocols + usage instructions`);
     return loadedProtocols;
+  }
+
+  /**
+   * Load the latest 25 memories for immediate context access
+   */
+  async loadLatestMemories() {
+    try {
+      const latestMemories = this.db.prepare(`
+        SELECT key, value, type, created_at, updated_at
+        FROM memories 
+        ORDER BY updated_at DESC 
+        LIMIT ?
+      `).all(this.maxLatestMemories);
+
+      const processedMemories = latestMemories.map(memory => ({
+        key: memory.key,
+        type: memory.type,
+        summary: this.generateMemorySummary(memory),
+        lastUpdated: memory.updated_at || memory.created_at,
+        isRecent: this.isRecentMemory(memory.updated_at || memory.created_at)
+      }));
+
+      console.log(`[BrainInitV5Working] Loaded ${processedMemories.length} latest memories`);
+      return processedMemories;
+      
+    } catch (error) {
+      console.error('[BrainInitV5Working] Failed to load latest memories:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Generate a brief summary of a memory for context loading
+   */
+  generateMemorySummary(memory) {
+    try {
+      const content = typeof memory.value === 'string' ? 
+        JSON.parse(memory.value) : memory.value;
+      
+      if (content && typeof content === 'object') {
+        return content.title || content.purpose || content.description || 
+               content.content?.substring(0, 100) || `${memory.type} memory`;
+      }
+      
+      return typeof content === 'string' ? 
+        content.substring(0, 100) : `${memory.type} memory`;
+    } catch (error) {
+      return `${memory.type} memory: ${memory.key}`;
+    }
+  }
+
+  /**
+   * Check if a memory is recent (within last 7 days)
+   */
+  isRecentMemory(timestamp) {
+    const daysSince = (Date.now() - new Date(timestamp)) / (1000 * 60 * 60 * 24);
+    return daysSince < 7;
   }
 }
 
