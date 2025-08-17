@@ -264,8 +264,10 @@ class BrainInitV5Working {
     return memories.filter(memory =>
       memory.key === 'brain_index' ||
       memory.key === 'user_preferences_session_start' ||
-      memory.key === 'last_project'
-    ).slice(0, 3);
+      memory.key === 'last_project' ||
+      memory.key === 'protocol_system_usage_instructions' ||
+      memory.key === 'protocol_navigation_workflow'
+    ).slice(0, 5);
   }
 
   /**
@@ -430,6 +432,7 @@ class BrainInitV5Working {
 
   /**
    * Load the 5 fundamental protocols that form the operational backbone
+   * Also ensures protocol usage instructions are available in context
    */
   async loadFundamentalProtocols() {
     const fundamentalProtocolIds = [
@@ -460,7 +463,18 @@ class BrainInitV5Working {
       }
     }
 
-    console.log(`[BrainInitV5Working] Loaded ${loadedProtocols.length}/5 fundamental protocols`);
+    // Add protocol system usage information
+    loadedProtocols.push({
+      name: 'protocol-usage-system',
+      type: 'meta-information',
+      activated: true,
+      reason: 'Protocol navigation and usage instructions',
+      confidence: 1.0,
+      loadedAt: new Date().toISOString(),
+      description: 'Hierarchical protocol system usage guide loaded in context'
+    });
+
+    console.log(`[BrainInitV5Working] Loaded ${loadedProtocols.length - 1}/5 fundamental protocols + usage instructions`);
     return loadedProtocols;
   }
 }
