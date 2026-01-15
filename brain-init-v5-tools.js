@@ -23,7 +23,7 @@ const brainWrapper = new BrainIntegrationWrapper({
  * Add this to the tools array in index.js:
  */
 export const brainInitV5Tool = {
-  name: 'brain_init_v5',
+  name: 'mikey_init_v5',
   description: 'Initialize Brain session with BrainInitV5 - Enhanced intelligent context loading with adaptive protocols',
   inputSchema: {
     type: 'object',
@@ -94,7 +94,7 @@ export const brainInitV5Tool = {
  * Deployment Status Tool - FIXED
  */
 export const brainInitV5StatusTool = {
-  name: 'brain_init_v5_status',
+  name: 'mikey_init_v5_status',
   description: 'Get BrainInitV5 deployment status and performance metrics',
   inputSchema: {
     type: 'object',

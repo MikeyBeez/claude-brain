@@ -1,20 +1,9 @@
 [project]
 name = "claude-brain"
-version = "1.0.0"
-description = "Unified persistent memory system for Claude"
+version = "0.1.0"
+description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
-
-[project.optional-dependencies]
-monitor = [
-    "flask>=3.0.0",
-    "watchdog>=4.0.0",
+dependencies = [
+    "requests>=2.32.4",
 ]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.uv]
-python = "3.11"
