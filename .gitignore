@@ -58,3 +58,37 @@ SYSTEM_CONFIGURATION_REPORT.md
 **/SYSTEM_CONFIGURATION_REPORT.md
 system-report.md
 .private/
+
+# Temporary fix/debug files
+*_fixed.js
+debug_*.js
+test_*.js
+validate_*.js
+fix_*.js
+real_context_loader.js
+minimize_descriptions.js
+minimal_descriptions.json
+verify_vault_path.sh
+
+# Old documentation and backups
+*.tar.gz
+PROTOCOLS_EMERGENCY_BACKUP_*/
+continuation-notes/
+context/
+*_protocol.md
+*_FIX*.md
+*_COMPLETE.md
+*_SUMMARY.md
+*_GUIDE.md
+*_README.md
+SYSTEM_PATHS.md
+
+# Accidental files
+process.env.OBSIDIAN_VAULT_PATH || /
+
+# Historical restoration/fix docs
+PROTOCOL_SYSTEM_RESTORATION.md
+fix_context_window.md
+
+# Lock files
+uv.lock
