@@ -3532,42 +3532,292 @@ Returns:
         let output = '';
 
         if (action === 'rebuild') {
-          // This would ideally query MCP servers, but we'll build from known tools
-          // For now, populate with known tools from our ecosystem
+          // Comprehensive catalog of all MCP tools across all servers
           const knownTools = [
-            // mikey-brain tools
-            { name: 'mikey_init', server: 'mikey-brain', desc: 'Initialize Brain session and load context', category: 'memory', keywords: 'init startup load context' },
+            // ===== MIKEY-BRAIN TOOLS =====
+            { name: 'mikey_init', server: 'mikey-brain', desc: 'Initialize Brain session and load context', category: 'memory', keywords: 'init startup load context session' },
+            { name: 'mikey_init_v5', server: 'mikey-brain', desc: 'Initialize Brain with V5 enhanced loading', category: 'memory', keywords: 'init v5 enhanced startup' },
+            { name: 'mikey_init_v5_working', server: 'mikey-brain', desc: 'Working V5 initialization with all features', category: 'memory', keywords: 'init v5 working enhanced' },
             { name: 'mikey_remember', server: 'mikey-brain', desc: 'Store information in Brain memory', category: 'memory', keywords: 'store save remember persist' },
             { name: 'mikey_recall', server: 'mikey-brain', desc: 'Search through Brain memories', category: 'memory', keywords: 'search find recall query' },
             { name: 'mikey_forget', server: 'mikey-brain', desc: 'Remove a memory by key or pattern', category: 'memory', keywords: 'delete remove forget' },
-            { name: 'mikey_status', server: 'mikey-brain', desc: 'Check Brain system status', category: 'system', keywords: 'status health check' },
-            { name: 'mikey_execute', server: 'mikey-brain', desc: 'Execute Python or Shell code', category: 'execution', keywords: 'run execute code python shell' },
-            { name: 'mikey_reflect', server: 'mikey-brain', desc: 'Evaluate task outcome, diagnose failures', category: 'reflection', keywords: 'reflect evaluate outcome failure' },
-            { name: 'mikey_reflect_mar', server: 'mikey-brain', desc: 'Multi-Agent Reflexion with 4 personas', category: 'reflection', keywords: 'reflect mar multi-agent critique' },
-            { name: 'mikey_propose', server: 'mikey-brain', desc: 'Propose a protocol change', category: 'protocol', keywords: 'propose change protocol improvement' },
-            { name: 'mikey_consolidate', server: 'mikey-brain', desc: 'Analyze memories for consolidation', category: 'memory', keywords: 'consolidate merge compress archive' },
-            { name: 'mikey_consolidate_merge', server: 'mikey-brain', desc: 'Manually merge related memories', category: 'memory', keywords: 'merge consolidate combine' },
-            { name: 'mikey_search', server: 'mikey-brain', desc: 'Search Brain memory and Obsidian notes', category: 'search', keywords: 'search find obsidian notes' },
-            { name: 'mikey_obsidian_note', server: 'mikey-brain', desc: 'Create/read/update Obsidian notes', category: 'obsidian', keywords: 'obsidian note create read update' },
-            { name: 'mikey_analyze', server: 'mikey-brain', desc: 'Analyze Obsidian vault for insights', category: 'obsidian', keywords: 'analyze vault patterns insights' },
-            { name: 'mikey_state_get', server: 'mikey-brain', desc: 'Get a state value', category: 'state', keywords: 'state get value' },
-            { name: 'mikey_state_set', server: 'mikey-brain', desc: 'Set a state value', category: 'state', keywords: 'state set value' },
+            { name: 'mikey_pin', server: 'mikey-brain', desc: 'Mark a memory as important', category: 'memory', keywords: 'pin important favorite' },
             { name: 'mikey_recent', server: 'mikey-brain', desc: 'Show recently accessed memories', category: 'memory', keywords: 'recent memories accessed' },
             { name: 'mikey_stats', server: 'mikey-brain', desc: 'Detailed brain system statistics', category: 'system', keywords: 'stats statistics metrics' },
-            { name: 'mikey_pin', server: 'mikey-brain', desc: 'Mark a memory as important', category: 'memory', keywords: 'pin important favorite' },
+            { name: 'mikey_status', server: 'mikey-brain', desc: 'Check Brain system status', category: 'system', keywords: 'status health check' },
+            { name: 'mikey_execute', server: 'mikey-brain', desc: 'Execute Python or Shell code', category: 'execution', keywords: 'run execute code python shell' },
+            { name: 'mikey_reflect', server: 'mikey-brain', desc: 'Evaluate task outcome, diagnose failures', category: 'reflection', keywords: 'reflect evaluate outcome failure diagnose' },
+            { name: 'mikey_reflect_mar', server: 'mikey-brain', desc: 'Multi-Agent Reflexion with 4 personas', category: 'reflection', keywords: 'reflect mar multi-agent critique verifier skeptic architect pragmatist' },
+            { name: 'mikey_reflections', server: 'mikey-brain', desc: 'View past reflections and patterns', category: 'reflection', keywords: 'reflections history patterns' },
+            { name: 'mikey_propose', server: 'mikey-brain', desc: 'Propose a protocol change', category: 'protocol', keywords: 'propose change protocol improvement' },
+            { name: 'mikey_review_proposals', server: 'mikey-brain', desc: 'List pending protocol proposals', category: 'protocol', keywords: 'review proposals pending' },
+            { name: 'mikey_apply_proposal', server: 'mikey-brain', desc: 'Apply or reject a protocol proposal', category: 'protocol', keywords: 'apply reject proposal approve' },
+            { name: 'mikey_graduation_track', server: 'mikey-brain', desc: 'Track protocol usage for graduation', category: 'protocol', keywords: 'graduation track usage metrics' },
+            { name: 'mikey_graduation_status', server: 'mikey-brain', desc: 'View graduation recommendations', category: 'protocol', keywords: 'graduation status recommend' },
+            { name: 'mikey_trigger_analyze', server: 'mikey-brain', desc: 'Analyze reflection data for trigger refinements', category: 'protocol', keywords: 'trigger analyze refine' },
+            { name: 'mikey_trigger_suggest', server: 'mikey-brain', desc: 'Generate trigger condition suggestions', category: 'protocol', keywords: 'trigger suggest conditions' },
+            { name: 'mikey_consolidate', server: 'mikey-brain', desc: 'Analyze memories for consolidation', category: 'memory', keywords: 'consolidate merge compress archive stale duplicate' },
+            { name: 'mikey_consolidate_merge', server: 'mikey-brain', desc: 'Manually merge related memories', category: 'memory', keywords: 'merge consolidate combine manual' },
+            { name: 'mikey_search', server: 'mikey-brain', desc: 'Search Brain memory and Obsidian notes', category: 'search', keywords: 'search find obsidian notes unified' },
+            { name: 'mikey_obsidian_note', server: 'mikey-brain', desc: 'Create/read/update Obsidian notes', category: 'obsidian', keywords: 'obsidian note create read update delete' },
+            { name: 'mikey_analyze', server: 'mikey-brain', desc: 'Analyze Obsidian vault for insights', category: 'obsidian', keywords: 'analyze vault patterns insights connections' },
+            { name: 'mikey_state_get', server: 'mikey-brain', desc: 'Get a state value', category: 'state', keywords: 'state get value retrieve' },
+            { name: 'mikey_state_set', server: 'mikey-brain', desc: 'Set a state value', category: 'state', keywords: 'state set value store' },
+            { name: 'mikey_state_list', server: 'mikey-brain', desc: 'List all state entries', category: 'state', keywords: 'state list entries' },
+            { name: 'mikey_state_delete', server: 'mikey-brain', desc: 'Delete a state entry', category: 'state', keywords: 'state delete remove' },
+            { name: 'mikey_state_clear', server: 'mikey-brain', desc: 'Clear state category', category: 'state', keywords: 'state clear category' },
+            { name: 'mikey_state_transaction', server: 'mikey-brain', desc: 'Atomic multi-operation state changes', category: 'state', keywords: 'state transaction atomic batch' },
+            { name: 'mikey_state_migrate', server: 'mikey-brain', desc: 'Migrate memories to state table', category: 'state', keywords: 'state migrate memories' },
+            { name: 'mikey_plan_create', server: 'mikey-brain', desc: 'Create hierarchical plan with nested steps', category: 'planning', keywords: 'plan create hierarchical steps nested' },
+            { name: 'mikey_plan_step', server: 'mikey-brain', desc: 'Execute/verify plan steps', category: 'planning', keywords: 'plan step execute verify precondition' },
+            { name: 'mikey_plan_status', server: 'mikey-brain', desc: 'Check plan progress', category: 'planning', keywords: 'plan status progress' },
+            { name: 'mikey_pattern_detect', server: 'mikey-brain', desc: 'Detect repeated action patterns', category: 'learning', keywords: 'pattern detect repeated actions sequences' },
+            { name: 'mikey_procedure_propose', server: 'mikey-brain', desc: 'Formalize pattern into procedure', category: 'learning', keywords: 'procedure propose formalize pattern' },
+            { name: 'mikey_procedure_use', server: 'mikey-brain', desc: 'Track procedure usage and outcomes', category: 'learning', keywords: 'procedure use track outcome' },
+            { name: 'mikey_procedure_list', server: 'mikey-brain', desc: 'List procedures with graduation status', category: 'learning', keywords: 'procedure list graduation status' },
+            { name: 'mikey_tool_catalog', server: 'mikey-brain', desc: 'Search and discover available MCP tools', category: 'discovery', keywords: 'tool catalog search discover find' },
+            { name: 'mikey_tool_track', server: 'mikey-brain', desc: 'Record tool usage for analytics', category: 'discovery', keywords: 'tool track usage analytics' },
+            { name: 'mikey_help', server: 'mikey-brain', desc: 'Get help on Brain tools', category: 'help', keywords: 'help documentation usage' },
 
-            // file-opener tools
-            { name: 'mikey_open', server: 'file-opener', desc: 'Open a file or directory in default app', category: 'files', keywords: 'open file directory app' },
-            { name: 'mikey_reveal', server: 'file-opener', desc: 'Reveal file in Finder', category: 'files', keywords: 'reveal finder show' },
+            // ===== FILE-OPENER TOOLS =====
+            { name: 'mikey_open', server: 'file-opener', desc: 'Open file or directory in default app', category: 'files', keywords: 'open file directory app macos' },
+            { name: 'mikey_reveal', server: 'file-opener', desc: 'Reveal file in Finder', category: 'files', keywords: 'reveal finder show select' },
 
-            // Built-in Claude Code tools
+            // ===== FILESYSTEM-ENHANCED TOOLS =====
+            { name: 'read_file', server: 'filesystem-enhanced', desc: 'Read file contents', category: 'files', keywords: 'read file contents text' },
+            { name: 'read_text_file', server: 'filesystem-enhanced', desc: 'Read text file with encoding', category: 'files', keywords: 'read text file encoding' },
+            { name: 'read_media_file', server: 'filesystem-enhanced', desc: 'Read image or audio file', category: 'files', keywords: 'read media image audio' },
+            { name: 'read_multiple_files', server: 'filesystem-enhanced', desc: 'Read multiple files at once', category: 'files', keywords: 'read multiple files batch' },
+            { name: 'write_file', server: 'filesystem-enhanced', desc: 'Write content to file', category: 'files', keywords: 'write file create save' },
+            { name: 'edit_file', server: 'filesystem-enhanced', desc: 'Make line-based edits', category: 'files', keywords: 'edit file lines modify' },
+            { name: 'create_directory', server: 'filesystem-enhanced', desc: 'Create directory', category: 'files', keywords: 'create directory folder mkdir' },
+            { name: 'list_directory', server: 'filesystem-enhanced', desc: 'List directory contents', category: 'files', keywords: 'list directory contents ls' },
+            { name: 'list_directory_with_sizes', server: 'filesystem-enhanced', desc: 'List directory with file sizes', category: 'files', keywords: 'list directory sizes' },
+            { name: 'directory_tree', server: 'filesystem-enhanced', desc: 'Get recursive tree view', category: 'files', keywords: 'directory tree recursive' },
+            { name: 'move_file', server: 'filesystem-enhanced', desc: 'Move or rename files', category: 'files', keywords: 'move rename file' },
+            { name: 'search_files', server: 'filesystem-enhanced', desc: 'Search for files by pattern', category: 'search', keywords: 'search files pattern glob' },
+            { name: 'get_file_info', server: 'filesystem-enhanced', desc: 'Get file metadata', category: 'files', keywords: 'file info metadata stat' },
+
+            // ===== GIT TOOLS =====
+            { name: 'git_status', server: 'git', desc: 'Get git repository status', category: 'git', keywords: 'git status changes staged' },
+            { name: 'git_diff', server: 'git', desc: 'Show changes in working directory', category: 'git', keywords: 'git diff changes' },
+            { name: 'git_add', server: 'git', desc: 'Stage files for commit', category: 'git', keywords: 'git add stage files' },
+            { name: 'git_commit', server: 'git', desc: 'Create a commit', category: 'git', keywords: 'git commit save' },
+            { name: 'git_branch', server: 'git', desc: 'List, create, or switch branches', category: 'git', keywords: 'git branch create switch' },
+            { name: 'git_log', server: 'git', desc: 'Show commit history', category: 'git', keywords: 'git log history commits' },
+            { name: 'git_push', server: 'git', desc: 'Push commits to remote', category: 'git', keywords: 'git push remote upload' },
+            { name: 'git_pull', server: 'git', desc: 'Pull changes from remote', category: 'git', keywords: 'git pull remote download' },
+            { name: 'git_clone', server: 'git', desc: 'Clone a repository', category: 'git', keywords: 'git clone repository' },
+            { name: 'git_init', server: 'git', desc: 'Initialize a new repository', category: 'git', keywords: 'git init create repository' },
+
+            // ===== DATABASE TOOLS =====
+            { name: 'db_connect', server: 'database', desc: 'Connect to SQLite database', category: 'database', keywords: 'database connect sqlite' },
+            { name: 'db_query', server: 'database', desc: 'Execute SQL query', category: 'database', keywords: 'database query sql select' },
+            { name: 'db_schema', server: 'database', desc: 'Get database schema', category: 'database', keywords: 'database schema tables columns' },
+            { name: 'db_tables', server: 'database', desc: 'List all tables', category: 'database', keywords: 'database tables list' },
+            { name: 'db_create_table', server: 'database', desc: 'Create a new table', category: 'database', keywords: 'database create table' },
+            { name: 'db_insert', server: 'database', desc: 'Insert data into table', category: 'database', keywords: 'database insert data' },
+            { name: 'db_update', server: 'database', desc: 'Update data in table', category: 'database', keywords: 'database update modify' },
+            { name: 'db_delete', server: 'database', desc: 'Delete data from table', category: 'database', keywords: 'database delete remove' },
+            { name: 'db_transaction', server: 'database', desc: 'Execute multiple queries in transaction', category: 'database', keywords: 'database transaction atomic' },
+
+            // ===== SYSTEM TOOLS =====
+            { name: 'system_exec', server: 'system', desc: 'Execute system command', category: 'system', keywords: 'system execute command shell' },
+            { name: 'system_info', server: 'system', desc: 'Get system information', category: 'system', keywords: 'system info cpu memory disk' },
+            { name: 'process_list', server: 'system', desc: 'List running processes', category: 'system', keywords: 'process list running ps' },
+            { name: 'process_kill', server: 'system', desc: 'Kill a process', category: 'system', keywords: 'process kill terminate' },
+            { name: 'env_get', server: 'system', desc: 'Get environment variables', category: 'system', keywords: 'environment variable get' },
+            { name: 'env_set', server: 'system', desc: 'Set environment variable', category: 'system', keywords: 'environment variable set' },
+            { name: 'port_check', server: 'system', desc: 'Check if port is in use', category: 'system', keywords: 'port check network' },
+            { name: 'disk_usage', server: 'system', desc: 'Get disk usage information', category: 'system', keywords: 'disk usage space' },
+            { name: 'network_info', server: 'system', desc: 'Get network interface info', category: 'system', keywords: 'network interface ip' },
+
+            // ===== REASONING TOOLS =====
+            { name: 'boolean_evaluate', server: 'reasoning-tools', desc: 'Evaluate boolean expressions', category: 'reasoning', keywords: 'boolean evaluate logic' },
+            { name: 'date_calculate', server: 'reasoning-tools', desc: 'Perform date arithmetic', category: 'reasoning', keywords: 'date calculate arithmetic' },
+            { name: 'object_count', server: 'reasoning-tools', desc: 'Count objects by category', category: 'reasoning', keywords: 'count objects category' },
+            { name: 'state_track', server: 'reasoning-tools', desc: 'Track object positions through swaps', category: 'reasoning', keywords: 'state track positions swaps' },
+            { name: 'systematic_verify', server: 'reasoning-tools', desc: 'Apply systematic reasoning protocol', category: 'reasoning', keywords: 'systematic verify reasoning protocol' },
+            { name: 'format_validate', server: 'reasoning-tools', desc: 'Validate answer format', category: 'reasoning', keywords: 'format validate answer' },
+
+            // ===== SEQUENTIAL THINKING =====
+            { name: 'sequentialthinking', server: 'sequential-thinking', desc: 'Dynamic reflective problem solving', category: 'reasoning', keywords: 'sequential thinking problem solving step' },
+
+            // ===== MIKEY-PROTOCOLS TOOLS =====
+            { name: 'mikey_protocol_list', server: 'mikey-protocols', desc: 'List all available protocols', category: 'protocol', keywords: 'protocol list available' },
+            { name: 'mikey_protocol_read', server: 'mikey-protocols', desc: 'Read full protocol content', category: 'protocol', keywords: 'protocol read content' },
+            { name: 'mikey_protocol_search', server: 'mikey-protocols', desc: 'Search protocols by purpose', category: 'protocol', keywords: 'protocol search find' },
+            { name: 'mikey_protocol_index', server: 'mikey-protocols', desc: 'Get Master Protocol Index', category: 'protocol', keywords: 'protocol index master' },
+            { name: 'mikey_protocol_triggers', server: 'mikey-protocols', desc: 'Get recommended protocols for situation', category: 'protocol', keywords: 'protocol triggers situation recommend' },
+            { name: 'mikey_prompt_process', server: 'mikey-protocols', desc: 'Pre-process user prompt for triggers', category: 'protocol', keywords: 'prompt process triggers extract' },
+
+            // ===== MIKEY-MANAGER TOOLS =====
+            { name: 'mikey_manager_init', server: 'mikey-manager', desc: 'Initialize Brain Manager', category: 'management', keywords: 'manager init session' },
+            { name: 'mikey_classify', server: 'mikey-manager', desc: 'Classify user intent', category: 'management', keywords: 'classify intent semantic' },
+            { name: 'mikey_switch_project', server: 'mikey-manager', desc: 'Switch to different project', category: 'management', keywords: 'switch project context' },
+            { name: 'mikey_return_project', server: 'mikey-manager', desc: 'Return to previous project', category: 'management', keywords: 'return project previous' },
+            { name: 'mikey_dashboard', server: 'mikey-manager', desc: 'Generate Obsidian dashboard', category: 'management', keywords: 'dashboard obsidian project' },
+            { name: 'mikey_context', server: 'mikey-manager', desc: 'Get current context summary', category: 'management', keywords: 'context summary current' },
+            { name: 'mikey_workflow', server: 'mikey-manager', desc: 'Handle natural language commands', category: 'management', keywords: 'workflow command natural language' },
+            { name: 'mikey_create_project', server: 'mikey-manager', desc: 'Create new project with full setup', category: 'management', keywords: 'create project new setup' },
+            { name: 'mikey_create_research', server: 'mikey-manager', desc: 'Create research project', category: 'management', keywords: 'create research investigation' },
+            { name: 'mikey_remind', server: 'mikey-manager', desc: 'Add a reminder', category: 'reminders', keywords: 'remind reminder add' },
+            { name: 'mikey_reminders', server: 'mikey-manager', desc: 'Check reminders', category: 'reminders', keywords: 'reminders check list' },
+            { name: 'mikey_project_status', server: 'mikey-manager', desc: 'Get all projects status', category: 'management', keywords: 'project status all' },
+
+            // ===== TODO-MANAGER TOOLS =====
+            { name: 'todo_add', server: 'todo-manager', desc: 'Add task to todo list', category: 'planning', keywords: 'todo add task' },
+            { name: 'todo_list', server: 'todo-manager', desc: 'List all tasks', category: 'planning', keywords: 'todo list tasks' },
+            { name: 'todo_update', server: 'todo-manager', desc: 'Update a task', category: 'planning', keywords: 'todo update task modify' },
+            { name: 'todo_delete', server: 'todo-manager', desc: 'Delete a task', category: 'planning', keywords: 'todo delete remove task' },
+            { name: 'todo_summary', server: 'todo-manager', desc: 'Get task summary by project', category: 'planning', keywords: 'todo summary project' },
+
+            // ===== REMINDERS TOOLS =====
+            { name: 'remind_me', server: 'reminders', desc: 'Add a reminder', category: 'reminders', keywords: 'remind reminder add' },
+            { name: 'check_reminders', server: 'reminders', desc: 'Check your reminders', category: 'reminders', keywords: 'check reminders list' },
+            { name: 'complete_reminder', server: 'reminders', desc: 'Mark reminder as completed', category: 'reminders', keywords: 'complete reminder done' },
+            { name: 'delete_reminder', server: 'reminders', desc: 'Delete a reminder', category: 'reminders', keywords: 'delete reminder remove' },
+
+            // ===== CONTINUATION NOTES =====
+            { name: 'continuation_write', server: 'mcp-continuation-notes', desc: 'Write continuation note', category: 'session', keywords: 'continuation note write handoff' },
+            { name: 'continuation_read_with_staleness', server: 'mcp-continuation-notes', desc: 'Read continuation note with staleness check', category: 'session', keywords: 'continuation read staleness' },
+            { name: 'continuation_check_handoff', server: 'mcp-continuation-notes', desc: 'Check if continuation note exists', category: 'session', keywords: 'continuation check handoff exists' },
+
+            // ===== TRACKED SEARCH =====
+            { name: 'web_search', server: 'tracked-search', desc: 'Search web with tracking', category: 'web', keywords: 'web search internet tracked' },
+            { name: 'tracked_search', server: 'tracked-search', desc: 'Enhanced web search with options', category: 'web', keywords: 'search tracked enhanced options' },
+            { name: 'search_usage', server: 'tracked-search', desc: 'Get search usage statistics', category: 'web', keywords: 'search usage stats' },
+
+            // ===== PROJECT FINDER =====
+            { name: 'list_projects', server: 'project-finder', desc: 'List all projects', category: 'projects', keywords: 'list projects code' },
+            { name: 'find_project', server: 'project-finder', desc: 'Find project by name', category: 'projects', keywords: 'find project search' },
+            { name: 'project_info', server: 'project-finder', desc: 'Get project information', category: 'projects', keywords: 'project info details' },
+            { name: 'recent_projects', server: 'project-finder', desc: 'List recently modified projects', category: 'projects', keywords: 'recent projects modified' },
+
+            // ===== SMALLEDIT =====
+            { name: 'sed_edit', server: 'smalledit', desc: 'Make edits using sed patterns', category: 'files', keywords: 'sed edit pattern replace' },
+            { name: 'sed_multifile', server: 'smalledit', desc: 'Apply sed to multiple files', category: 'files', keywords: 'sed multifile batch' },
+            { name: 'awk_process', server: 'smalledit', desc: 'Process files using AWK', category: 'files', keywords: 'awk process columns' },
+            { name: 'quick_replace', server: 'smalledit', desc: 'Simple find and replace', category: 'files', keywords: 'replace find simple' },
+            { name: 'line_edit', server: 'smalledit', desc: 'Edit specific lines', category: 'files', keywords: 'line edit specific' },
+            { name: 'perl_edit', server: 'smalledit', desc: 'Edit using Perl one-liners', category: 'files', keywords: 'perl edit regex' },
+
+            // ===== VISION =====
+            { name: 'vision_screenshot', server: 'vision', desc: 'Take and analyze screenshot', category: 'vision', keywords: 'screenshot vision analyze' },
+            { name: 'vision_camera', server: 'vision', desc: 'Take photo with camera', category: 'vision', keywords: 'camera photo vision' },
+            { name: 'vision_analyze_image', server: 'vision', desc: 'Analyze an image file', category: 'vision', keywords: 'analyze image vision' },
+
+            // ===== ELVIS (Ollama) =====
+            { name: 'elvis_delegate', server: 'elvis', desc: 'Delegate task to Ollama', category: 'ai', keywords: 'elvis delegate ollama local' },
+            { name: 'elvis_status', server: 'elvis', desc: 'Check delegated task status', category: 'ai', keywords: 'elvis status check' },
+            { name: 'elvis_result', server: 'elvis', desc: 'Get completed task result', category: 'ai', keywords: 'elvis result completed' },
+            { name: 'elvis_screenshot', server: 'elvis', desc: 'Take screenshot', category: 'ai', keywords: 'elvis screenshot capture' },
+            { name: 'elvis_analyze_screen', server: 'elvis', desc: 'Screenshot and analyze with vision', category: 'ai', keywords: 'elvis analyze screen vision' },
+
+            // ===== COGNITION =====
+            { name: 'cognition_process', server: 'cognition', desc: 'Process cognitive task', category: 'cognition', keywords: 'cognition process think' },
+            { name: 'cognition_insights', server: 'cognition', desc: 'Retrieve processed insights', category: 'cognition', keywords: 'cognition insights retrieve' },
+            { name: 'cognition_status', server: 'cognition', desc: 'Get cognitive system status', category: 'cognition', keywords: 'cognition status' },
+            { name: 'cognition_synthesize', server: 'cognition', desc: 'Force synthesis across subsystems', category: 'cognition', keywords: 'cognition synthesize combine' },
+
+            // ===== CONTEMPLATION =====
+            { name: 'start_contemplation', server: 'contemplation', desc: 'Start background contemplation', category: 'cognition', keywords: 'contemplation start background' },
+            { name: 'send_thought', server: 'contemplation', desc: 'Send thought for processing', category: 'cognition', keywords: 'thought send process' },
+            { name: 'get_insights', server: 'contemplation', desc: 'Retrieve contemplation insights', category: 'cognition', keywords: 'insights get contemplation' },
+            { name: 'stop_contemplation', server: 'contemplation', desc: 'Stop contemplation loop', category: 'cognition', keywords: 'contemplation stop' },
+
+            // ===== SUBCONSCIOUS =====
+            { name: 'think', server: 'subconscious', desc: 'Drop thought for async processing', category: 'cognition', keywords: 'think async background' },
+            { name: 'check_results', server: 'subconscious', desc: 'Check for completed thoughts', category: 'cognition', keywords: 'check results thoughts' },
+            { name: 'get_insights', server: 'subconscious', desc: 'Retrieve recent insights', category: 'cognition', keywords: 'get insights recent' },
+
+            // ===== MEMORY-EMA =====
+            { name: 'ema_process_conversation', server: 'memory-ema', desc: 'Process conversation for memory', category: 'memory', keywords: 'ema conversation memory extract' },
+            { name: 'ema_surface_relevant_memory', server: 'memory-ema', desc: 'Surface relevant memory', category: 'memory', keywords: 'ema surface relevant memory' },
+            { name: 'ema_store_memory', server: 'memory-ema', desc: 'Store memory with attribution', category: 'memory', keywords: 'ema store memory attribution' },
+            { name: 'ema_get_memory_stats', server: 'memory-ema', desc: 'Get memory statistics', category: 'memory', keywords: 'ema stats memory' },
+
+            // ===== MERCURY EVOLUTION =====
+            { name: 'mercury_start_tracking', server: 'mercury-evolution', desc: 'Start tracking navigation session', category: 'tracking', keywords: 'mercury tracking start' },
+            { name: 'mercury_record_step', server: 'mercury-evolution', desc: 'Record navigation step', category: 'tracking', keywords: 'mercury record step' },
+            { name: 'mercury_end_tracking', server: 'mercury-evolution', desc: 'End tracking session', category: 'tracking', keywords: 'mercury end tracking' },
+            { name: 'mercury_evolve_context', server: 'mercury-evolution', desc: 'Load context adaptively', category: 'tracking', keywords: 'mercury evolve context adaptive' },
+
+            // ===== TOOL TRACKER =====
+            { name: 'track_tool_call', server: 'tool-tracker', desc: 'Record tool call for analysis', category: 'tracking', keywords: 'track tool call record' },
+            { name: 'track_sequence_end', server: 'tool-tracker', desc: 'Mark end of tool sequence', category: 'tracking', keywords: 'track sequence end' },
+            { name: 'track_get_insights', server: 'tool-tracker', desc: 'Get tracked patterns', category: 'tracking', keywords: 'track insights patterns' },
+
+            // ===== PROTOCOL TRACKER =====
+            { name: 'protocol_start_session', server: 'protocol-tracker', desc: 'Start protocol tracking session', category: 'tracking', keywords: 'protocol tracking session start' },
+            { name: 'protocol_log_step', server: 'protocol-tracker', desc: 'Log protocol step completion', category: 'tracking', keywords: 'protocol log step' },
+            { name: 'protocol_check_compliance', server: 'protocol-tracker', desc: 'Check protocol compliance', category: 'tracking', keywords: 'protocol compliance check' },
+
+            // ===== RANDOM =====
+            { name: 'random_integer', server: 'random', desc: 'Generate random integer', category: 'utility', keywords: 'random integer number' },
+            { name: 'random_float', server: 'random', desc: 'Generate random float', category: 'utility', keywords: 'random float decimal' },
+            { name: 'random_choice', server: 'random', desc: 'Select random item from array', category: 'utility', keywords: 'random choice select' },
+            { name: 'random_shuffle', server: 'random', desc: 'Shuffle array', category: 'utility', keywords: 'random shuffle array' },
+            { name: 'random_uuid', server: 'random', desc: 'Generate UUID', category: 'utility', keywords: 'random uuid unique' },
+            { name: 'flip_coin', server: 'random', desc: 'Flip a coin', category: 'utility', keywords: 'flip coin random' },
+            { name: 'roll_dice', server: 'random', desc: 'Roll dice', category: 'utility', keywords: 'roll dice random' },
+            { name: 'random_password', server: 'random', desc: 'Generate secure password', category: 'utility', keywords: 'random password secure' },
+
+            // ===== BULLSHIT DETECTOR =====
+            { name: 'detect_bullshit', server: 'bullshit-detector', desc: 'Analyze text for unsupported claims', category: 'validation', keywords: 'bullshit detect claims validation' },
+            { name: 'get_validation_questions', server: 'bullshit-detector', desc: 'Get self-validation questions', category: 'validation', keywords: 'validation questions self check' },
+
+            // ===== SMART HELP =====
+            { name: 'smart_help', server: 'smart-help', desc: 'Get intelligent documentation suggestions', category: 'help', keywords: 'smart help documentation suggest' },
+            { name: 'smart_help_learn', server: 'smart-help', desc: 'Provide feedback on suggestions', category: 'help', keywords: 'smart help learn feedback' },
+
+            // ===== ARCHITECTURE =====
+            { name: 'arch_find_document', server: 'mcp-architecture', desc: 'Find architectural documents', category: 'documentation', keywords: 'architecture document find search' },
+            { name: 'arch_list_architecture', server: 'mcp-architecture', desc: 'List architectural documents', category: 'documentation', keywords: 'architecture list documents' },
+            { name: 'arch_get_document', server: 'mcp-architecture', desc: 'Read architectural document', category: 'documentation', keywords: 'architecture read document' },
+            { name: 'arch_cross_reference', server: 'mcp-architecture', desc: 'Show document relationships', category: 'documentation', keywords: 'architecture cross reference' },
+
+            // ===== GITHUB RESEARCH =====
+            { name: 'github_search_issues', server: 'mcp-github-research', desc: 'Search GitHub issues', category: 'github', keywords: 'github search issues' },
+            { name: 'github_get_issue_timeline', server: 'mcp-github-research', desc: 'Get issue timeline', category: 'github', keywords: 'github issue timeline events' },
+            { name: 'github_list_repository_issues', server: 'mcp-github-research', desc: 'List repository issues', category: 'github', keywords: 'github list issues repository' },
+            { name: 'github_analyze_label_history', server: 'mcp-github-research', desc: 'Analyze label history', category: 'github', keywords: 'github analyze labels history' },
+
+            // ===== ADVANCED MATH =====
+            { name: 'padic_continuity_check', server: 'advanced-math-tools', desc: 'Check p-adic continuity', category: 'math', keywords: 'padic continuity check math' },
+            { name: 'padic_valuation', server: 'advanced-math-tools', desc: 'Compute p-adic valuation', category: 'math', keywords: 'padic valuation compute' },
+            { name: 'multiplicative_order', server: 'advanced-math-tools', desc: 'Compute multiplicative order', category: 'math', keywords: 'multiplicative order modular' },
+            { name: 'prime_density_analysis', server: 'advanced-math-tools', desc: 'Analyze prime density', category: 'math', keywords: 'prime density analysis' },
+
+            // ===== KAGGLE =====
+            { name: 'kaggle_auth_check', server: 'kaggle', desc: 'Check Kaggle auth', category: 'kaggle', keywords: 'kaggle auth check' },
+            { name: 'kaggle_list_notebooks', server: 'kaggle', desc: 'List Kaggle notebooks', category: 'kaggle', keywords: 'kaggle notebooks list' },
+            { name: 'kaggle_create_notebook', server: 'kaggle', desc: 'Create Kaggle notebook', category: 'kaggle', keywords: 'kaggle notebook create' },
+            { name: 'kaggle_run_notebook', server: 'kaggle', desc: 'Run Kaggle notebook', category: 'kaggle', keywords: 'kaggle notebook run execute' },
+            { name: 'kaggle_search_datasets', server: 'kaggle', desc: 'Search Kaggle datasets', category: 'kaggle', keywords: 'kaggle datasets search' },
+            { name: 'kaggle_list_competitions', server: 'kaggle', desc: 'List Kaggle competitions', category: 'kaggle', keywords: 'kaggle competitions list' },
+
+            // ===== PLAYWRIGHT =====
+            { name: 'browser_navigate', server: 'playwright', desc: 'Navigate to URL', category: 'browser', keywords: 'browser navigate url' },
+            { name: 'browser_click', server: 'playwright', desc: 'Click on element', category: 'browser', keywords: 'browser click element' },
+            { name: 'browser_type', server: 'playwright', desc: 'Type text into element', category: 'browser', keywords: 'browser type text input' },
+            { name: 'browser_snapshot', server: 'playwright', desc: 'Capture accessibility snapshot', category: 'browser', keywords: 'browser snapshot accessibility' },
+            { name: 'browser_take_screenshot', server: 'playwright', desc: 'Take screenshot', category: 'browser', keywords: 'browser screenshot capture' },
+
+            // ===== VAULT ANALYSIS =====
+            { name: 'scan_vault', server: 'background-vault-analysis', desc: 'Analyze Obsidian vault', category: 'obsidian', keywords: 'vault scan analyze obsidian' },
+            { name: 'get_insights', server: 'background-vault-analysis', desc: 'Get vault insights', category: 'obsidian', keywords: 'vault insights get' },
+            { name: 'track_changes', server: 'background-vault-analysis', desc: 'Track vault evolution', category: 'obsidian', keywords: 'vault track changes evolution' },
+            { name: 'generate_report', server: 'background-vault-analysis', desc: 'Generate vault analysis report', category: 'obsidian', keywords: 'vault report generate analysis' },
+
+            // ===== BUILT-IN CLAUDE CODE TOOLS =====
             { name: 'Read', server: 'claude-code', desc: 'Read file contents', category: 'files', keywords: 'read file contents' },
             { name: 'Write', server: 'claude-code', desc: 'Write content to file', category: 'files', keywords: 'write file create' },
             { name: 'Edit', server: 'claude-code', desc: 'Edit file with string replacement', category: 'files', keywords: 'edit modify replace' },
             { name: 'Bash', server: 'claude-code', desc: 'Execute bash commands', category: 'execution', keywords: 'bash shell command terminal' },
             { name: 'Glob', server: 'claude-code', desc: 'Find files by pattern', category: 'search', keywords: 'glob find files pattern' },
             { name: 'Grep', server: 'claude-code', desc: 'Search file contents', category: 'search', keywords: 'grep search content' },
-            { name: 'Task', server: 'claude-code', desc: 'Launch specialized agents', category: 'agents', keywords: 'task agent spawn' },
+            { name: 'Task', server: 'claude-code', desc: 'Launch specialized agents', category: 'agents', keywords: 'task agent spawn subagent' },
             { name: 'WebSearch', server: 'claude-code', desc: 'Search the web', category: 'web', keywords: 'web search internet' },
             { name: 'WebFetch', server: 'claude-code', desc: 'Fetch and process web content', category: 'web', keywords: 'web fetch url' },
             { name: 'TodoWrite', server: 'claude-code', desc: 'Manage task list', category: 'planning', keywords: 'todo task list planning' },
@@ -4037,10 +4287,10 @@ Returns:
     }
   },
 
-  // ===== MEMORY CONSOLIDATION =====
+  // ===== MEMORY CONSOLIDATION (RLM-Enhanced) =====
   {
     name: 'mikey_consolidate',
-    description: 'Analyze memories for consolidation opportunities - find redundant, outdated, or related memories that can be merged into higher-level patterns',
+    description: 'Analyze memories for consolidation opportunities - find redundant, outdated, or related memories that can be merged into higher-level patterns. Enhanced with RLM-inspired semantic analysis for deeper pattern detection.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -4052,8 +4302,8 @@ Returns:
         },
         target: {
           type: 'string',
-          enum: ['duplicates', 'stale', 'related', 'all'],
-          description: 'What to consolidate: duplicates, stale (>3 months unused), related (similar topics), or all',
+          enum: ['duplicates', 'stale', 'related', 'semantic', 'all'],
+          description: 'What to consolidate: duplicates, stale (>3 months unused), related (same prefix), semantic (RLM chunked analysis), or all',
           default: 'all'
         },
         prefix: {
@@ -4064,10 +4314,20 @@ Returns:
           type: 'boolean',
           description: 'If true, show what would happen without making changes',
           default: true
+        },
+        chunk_size: {
+          type: 'number',
+          description: 'RLM chunk size for semantic analysis (default: 25)',
+          default: 25
+        },
+        similarity_threshold: {
+          type: 'number',
+          description: 'Minimum similarity score (0-1) to consider semantic match (default: 0.3)',
+          default: 0.3
         }
       }
     },
-    handler: async ({ mode = 'analyze', target = 'all', prefix = null, dry_run = true }) => {
+    handler: async ({ mode = 'analyze', target = 'all', prefix = null, dry_run = true, chunk_size = 25, similarity_threshold = 0.3 }) => {
       try {
         const db = new Database(BRAIN_DB_PATH);
 
@@ -4219,6 +4479,164 @@ Returns:
           }
         }
 
+        // === RLM SEMANTIC ANALYSIS (new) ===
+        if (target === 'semantic' || target === 'all') {
+          output += `🔬 SEMANTIC ANALYSIS (RLM-inspired chunked processing):\n`;
+          output += `─────────────────────────────────────────────────\n`;
+
+          // RLM Pass 1: Extract keyword signatures for each memory
+          output += `  [Pass 1] Extracting keyword signatures...\n`;
+
+          const memorySignatures = memories.map(m => {
+            const valueStr = typeof m.value === 'string' ? m.value : JSON.stringify(m.value);
+            // Extract meaningful words (4+ chars, not common words)
+            const words = valueStr.toLowerCase()
+              .replace(/[^a-z\s]/g, ' ')
+              .split(/\s+/)
+              .filter(w => w.length >= 4 && !['this', 'that', 'with', 'from', 'have', 'been', 'were', 'will', 'would', 'could', 'should', 'about', 'more', 'when', 'what', 'which', 'their', 'there', 'these', 'than', 'then', 'also', 'into', 'your', 'just', 'only'].includes(w));
+
+            // Get top keywords by frequency
+            const wordFreq = {};
+            for (const w of words) {
+              wordFreq[w] = (wordFreq[w] || 0) + 1;
+            }
+            const topKeywords = Object.entries(wordFreq)
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 10)
+              .map(([w]) => w);
+
+            return {
+              key: m.key,
+              type: m.type,
+              keywords: new Set(topKeywords),
+              keywordArray: topKeywords
+            };
+          });
+
+          output += `    Processed ${memorySignatures.length} memory signatures\n`;
+
+          // RLM Pass 2: Chunk and find semantic clusters
+          output += `  [Pass 2] Chunked cluster detection (chunk_size=${chunk_size})...\n`;
+
+          const semanticClusters = [];
+          const processed = new Set();
+
+          // Process in chunks to avoid O(n²) full comparison
+          for (let i = 0; i < memorySignatures.length; i += chunk_size) {
+            const chunk = memorySignatures.slice(i, Math.min(i + chunk_size, memorySignatures.length));
+
+            // Find clusters within this chunk
+            for (let j = 0; j < chunk.length; j++) {
+              if (processed.has(chunk[j].key)) continue;
+
+              const matches = [];
+              for (let k = j + 1; k < chunk.length; k++) {
+                if (processed.has(chunk[k].key)) continue;
+
+                // Calculate Jaccard similarity between keyword sets
+                const intersection = [...chunk[j].keywords].filter(w => chunk[k].keywords.has(w));
+                const union = new Set([...chunk[j].keywords, ...chunk[k].keywords]);
+                const similarity = intersection.length / union.size;
+
+                if (similarity >= similarity_threshold) {
+                  matches.push({
+                    key: chunk[k].key,
+                    type: chunk[k].type,
+                    similarity: similarity,
+                    sharedKeywords: intersection
+                  });
+                }
+              }
+
+              if (matches.length > 0) {
+                semanticClusters.push({
+                  anchor: chunk[j].key,
+                  anchorType: chunk[j].type,
+                  anchorKeywords: chunk[j].keywordArray.slice(0, 5),
+                  matches: matches,
+                  totalMemories: matches.length + 1
+                });
+
+                // Mark as processed
+                processed.add(chunk[j].key);
+                for (const m of matches) {
+                  processed.add(m.key);
+                }
+              }
+            }
+
+            // Also compare chunk against previous chunks (cross-chunk analysis)
+            if (i > 0) {
+              const prevChunk = memorySignatures.slice(Math.max(0, i - chunk_size), i);
+              for (const current of chunk) {
+                if (processed.has(current.key)) continue;
+
+                for (const prev of prevChunk) {
+                  if (processed.has(prev.key)) continue;
+
+                  const intersection = [...current.keywords].filter(w => prev.keywords.has(w));
+                  const union = new Set([...current.keywords, ...prev.keywords]);
+                  const similarity = intersection.length / union.size;
+
+                  if (similarity >= similarity_threshold) {
+                    // Add to existing cluster or create new
+                    const existingCluster = semanticClusters.find(c => c.anchor === prev.key);
+                    if (existingCluster) {
+                      existingCluster.matches.push({
+                        key: current.key,
+                        type: current.type,
+                        similarity: similarity,
+                        sharedKeywords: intersection
+                      });
+                      existingCluster.totalMemories++;
+                      processed.add(current.key);
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          output += `    Found ${semanticClusters.length} semantic clusters\n`;
+
+          // RLM Pass 3: Aggregate and rank clusters
+          output += `  [Pass 3] Aggregating results...\n\n`;
+
+          // Sort by cluster size
+          semanticClusters.sort((a, b) => b.totalMemories - a.totalMemories);
+
+          if (semanticClusters.length > 0) {
+            output += `  🧬 SEMANTIC CLUSTERS (by keyword similarity):\n`;
+
+            for (const cluster of semanticClusters.slice(0, 8)) {
+              output += `\n  Cluster: "${cluster.anchor}" (${cluster.anchorType})\n`;
+              output += `    Keywords: ${cluster.anchorKeywords.join(', ')}\n`;
+              output += `    Related memories (${cluster.matches.length}):\n`;
+
+              for (const match of cluster.matches.slice(0, 5)) {
+                output += `      - ${match.key} (${match.type}) [${(match.similarity * 100).toFixed(0)}% similar]\n`;
+                output += `        Shared: ${match.sharedKeywords.slice(0, 4).join(', ')}\n`;
+              }
+
+              if (cluster.matches.length > 5) {
+                output += `      ... and ${cluster.matches.length - 5} more\n`;
+              }
+
+              consolidationOps.push({
+                action: 'merge_semantic',
+                anchor: cluster.anchor,
+                keys: [cluster.anchor, ...cluster.matches.map(m => m.key)],
+                sharedThemes: cluster.anchorKeywords,
+                reason: `${cluster.totalMemories} semantically similar memories (${cluster.anchorKeywords.slice(0, 3).join(', ')})`
+              });
+            }
+          } else {
+            output += `  No semantic clusters found above threshold (${similarity_threshold})\n`;
+          }
+
+          output += `\n`;
+        }
+
         // === SUMMARY ===
         output += `\n📊 CONSOLIDATION SUMMARY\n`;
         output += `═══════════════════════════════════════════════════\n`;
@@ -4229,6 +4647,7 @@ Returns:
           const archiveOps = consolidationOps.filter(o => o.action === 'archive_stale');
           const mergeOps = consolidationOps.filter(o => o.action === 'merge_related');
           const dedupeOps = consolidationOps.filter(o => o.action === 'deduplicate');
+          const semanticOps = consolidationOps.filter(o => o.action === 'merge_semantic');
 
           if (archiveOps.length > 0) {
             const totalStale = archiveOps.reduce((sum, o) => sum + o.keys.length, 0);
@@ -4242,11 +4661,16 @@ Returns:
             const totalDupe = dedupeOps.reduce((sum, o) => sum + o.keys.length, 0);
             output += `  📋 Duplicate memories to dedupe: ${totalDupe} → ${dedupeOps.length}\n`;
           }
+          if (semanticOps.length > 0) {
+            const totalSemantic = semanticOps.reduce((sum, o) => sum + o.keys.length, 0);
+            output += `  🧬 Semantic clusters to merge: ${totalSemantic} → ${semanticOps.length}\n`;
+          }
 
           if (mode === 'analyze') {
             output += `\n💡 Next steps:\n`;
             output += `  1. Run with mode="preview" to see detailed changes\n`;
             output += `  2. Run with mode="execute" dry_run=false to apply\n`;
+            output += `  3. Use mikey_consolidate_merge for semantic clusters (require review)\n`;
           }
         }
 
@@ -4432,10 +4856,10 @@ Returns:
     }
   },
 
-  // ===== EXPERIENCE-DRIVEN PROCEDURAL LEARNING =====
+  // ===== EXPERIENCE-DRIVEN PROCEDURAL LEARNING (RLM-Enhanced) =====
   {
     name: 'mikey_pattern_detect',
-    description: 'Analyze action sequences to detect repeated patterns that could become procedures. Looks at reflections, tool usage, and memory access patterns.',
+    description: 'Analyze action sequences to detect repeated patterns that could become procedures. Enhanced with RLM-inspired multi-granularity analysis: session → day → week → month patterns.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -4443,13 +4867,19 @@ Returns:
         time_window_days: { type: 'number', description: 'Look back this many days (default: 30)', default: 30 },
         pattern_type: {
           type: 'string',
-          enum: ['tool_sequence', 'task_pattern', 'error_recovery', 'all'],
-          description: 'Type of pattern to detect',
+          enum: ['tool_sequence', 'task_pattern', 'error_recovery', 'temporal', 'all'],
+          description: 'Type of pattern to detect. "temporal" uses RLM multi-granularity analysis.',
+          default: 'all'
+        },
+        granularity: {
+          type: 'string',
+          enum: ['session', 'day', 'week', 'month', 'all'],
+          description: 'RLM temporal granularity level (default: all)',
           default: 'all'
         }
       }
     },
-    handler: async ({ min_occurrences = 3, time_window_days = 30, pattern_type = 'all' }) => {
+    handler: async ({ min_occurrences = 3, time_window_days = 30, pattern_type = 'all', granularity = 'all' }) => {
       try {
         const db = new Database(BRAIN_DB_PATH, { readonly: true });
 
@@ -4611,6 +5041,140 @@ Returns:
           }
         }
 
+        // 4. RLM-inspired TEMPORAL MULTI-GRANULARITY ANALYSIS
+        if (pattern_type === 'all' || pattern_type === 'temporal') {
+          output += `🕐 TEMPORAL PATTERNS (RLM multi-granularity analysis):\n`;
+          output += `─────────────────────────────────────────────────\n`;
+
+          // Get all memories with timestamps
+          const allMemories = db.prepare(`
+            SELECT key, type, created_at, accessed_at
+            FROM memories
+            WHERE created_at > datetime('now', '-${time_window_days} days')
+            ORDER BY created_at DESC
+          `).all();
+
+          // RLM Pass 1: Bucket memories by time granularity
+          const buckets = {
+            hour: {},    // Hour of day (0-23)
+            dayOfWeek: {}, // Day of week (0-6)
+            week: {}     // Week number
+          };
+
+          for (const m of allMemories) {
+            const date = new Date(m.created_at);
+            const hour = date.getHours();
+            const dayOfWeek = date.getDay();
+            const weekNum = Math.floor((Date.now() - date.getTime()) / (7 * 24 * 60 * 60 * 1000));
+
+            // Bucket by hour
+            buckets.hour[hour] = buckets.hour[hour] || { count: 0, types: {} };
+            buckets.hour[hour].count++;
+            buckets.hour[hour].types[m.type] = (buckets.hour[hour].types[m.type] || 0) + 1;
+
+            // Bucket by day of week
+            buckets.dayOfWeek[dayOfWeek] = buckets.dayOfWeek[dayOfWeek] || { count: 0, types: {} };
+            buckets.dayOfWeek[dayOfWeek].count++;
+            buckets.dayOfWeek[dayOfWeek].types[m.type] = (buckets.dayOfWeek[dayOfWeek].types[m.type] || 0) + 1;
+
+            // Bucket by week
+            if (weekNum <= 4) { // Last 4 weeks
+              buckets.week[weekNum] = buckets.week[weekNum] || { count: 0, types: {} };
+              buckets.week[weekNum].count++;
+              buckets.week[weekNum].types[m.type] = (buckets.week[weekNum].types[m.type] || 0) + 1;
+            }
+          }
+
+          // RLM Pass 2: Find temporal patterns
+          const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+          // Peak hours
+          if (granularity === 'all' || granularity === 'session') {
+            const peakHours = Object.entries(buckets.hour)
+              .sort((a, b) => b[1].count - a[1].count)
+              .slice(0, 3);
+
+            if (peakHours.length > 0) {
+              output += `\n  📊 Peak Activity Hours:\n`;
+              for (const [hour, data] of peakHours) {
+                const topType = Object.entries(data.types).sort((a, b) => b[1] - a[1])[0];
+                output += `     ${hour}:00 - ${data.count} activities (mostly ${topType[0]})\n`;
+              }
+
+              patterns.push({
+                type: 'temporal_peak_hours',
+                hours: peakHours.map(([h, d]) => ({ hour: parseInt(h), count: d.count })),
+                recommendation: `Most productive hours: ${peakHours.map(([h]) => h + ':00').join(', ')}`
+              });
+            }
+          }
+
+          // Day of week patterns
+          if (granularity === 'all' || granularity === 'day') {
+            const dayPatterns = Object.entries(buckets.dayOfWeek)
+              .sort((a, b) => b[1].count - a[1].count);
+
+            if (dayPatterns.length > 0) {
+              output += `\n  📅 Activity by Day of Week:\n`;
+              for (const [day, data] of dayPatterns) {
+                const topType = Object.entries(data.types).sort((a, b) => b[1] - a[1])[0];
+                output += `     ${dayNames[day]}: ${data.count} activities (${topType[0]}: ${topType[1]})\n`;
+              }
+
+              const mostActiveDay = dayNames[dayPatterns[0][0]];
+              const leastActiveDay = dayNames[dayPatterns[dayPatterns.length - 1][0]];
+
+              patterns.push({
+                type: 'temporal_day_pattern',
+                most_active: mostActiveDay,
+                least_active: leastActiveDay,
+                recommendation: `Most active on ${mostActiveDay}, least on ${leastActiveDay}`
+              });
+            }
+          }
+
+          // Weekly trend
+          if (granularity === 'all' || granularity === 'week') {
+            const weekTrend = Object.entries(buckets.week)
+              .sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+
+            if (weekTrend.length >= 2) {
+              output += `\n  📈 Weekly Trend (recent first):\n`;
+              const weekLabels = ['This week', 'Last week', '2 weeks ago', '3 weeks ago', '4 weeks ago'];
+
+              for (const [weekNum, data] of weekTrend) {
+                const topTypes = Object.entries(data.types)
+                  .sort((a, b) => b[1] - a[1])
+                  .slice(0, 2)
+                  .map(([t, c]) => `${t}:${c}`);
+                output += `     ${weekLabels[weekNum] || `Week -${weekNum}`}: ${data.count} activities (${topTypes.join(', ')})\n`;
+              }
+
+              // Calculate trend
+              const recentWeeks = weekTrend.slice(0, 2);
+              if (recentWeeks.length === 2) {
+                const thisWeek = recentWeeks.find(([w]) => w === '0');
+                const lastWeek = recentWeeks.find(([w]) => w === '1');
+                if (thisWeek && lastWeek) {
+                  const change = ((thisWeek[1].count - lastWeek[1].count) / lastWeek[1].count * 100).toFixed(0);
+                  const trend = parseInt(change) > 0 ? '↑' : parseInt(change) < 0 ? '↓' : '→';
+                  output += `     Trend: ${trend} ${Math.abs(parseInt(change))}% vs last week\n`;
+
+                  patterns.push({
+                    type: 'temporal_weekly_trend',
+                    this_week: thisWeek[1].count,
+                    last_week: lastWeek[1].count,
+                    change_percent: parseInt(change),
+                    trend: trend
+                  });
+                }
+              }
+            }
+          }
+
+          output += `\n`;
+        }
+
         db.close();
 
         // Summary and recommendations
@@ -4619,7 +5183,7 @@ Returns:
 
         if (patterns.length > 0) {
           output += `💡 RECOMMENDATIONS:\n`;
-          for (const p of patterns.slice(0, 3)) {
+          for (const p of patterns.slice(0, 5)) {
             if (p.type === 'tool_sequence' && p.success_rate > 0.8) {
               output += `   → Consider procedure for: "${p.pattern}"\n`;
               output += `     High success rate (${(p.success_rate * 100).toFixed(0)}%) across ${p.occurrences} uses\n`;
@@ -4627,6 +5191,12 @@ Returns:
               output += `   → "${p.keyword}" tasks could use a dedicated workflow\n`;
             } else if (p.type === 'error_recovery' && p.occurrences >= 5) {
               output += `   → Add error handling for ${p.failure_class} failures\n`;
+            } else if (p.type === 'temporal_peak_hours') {
+              output += `   → ${p.recommendation}\n`;
+            } else if (p.type === 'temporal_day_pattern') {
+              output += `   → ${p.recommendation}\n`;
+            } else if (p.type === 'temporal_weekly_trend') {
+              output += `   → Activity trend: ${p.trend} ${Math.abs(p.change_percent)}% week-over-week\n`;
             }
           }
           output += `\n🔧 Use mikey_procedure_propose to formalize a pattern`;
@@ -4892,7 +5462,448 @@ Returns:
   // ===== BRAIN INIT V5 TOOLS =====
   brainInitV5Tool,
   brainInitV5StatusTool,
-  brainInitV5WorkingTool
+  brainInitV5WorkingTool,
+
+  // ===== RLM-INSPIRED RECURSIVE ANALYSIS =====
+  // Based on "Recursive Language Models" (Zhang, Kraska, Khattab 2024)
+  // Key insight: treat large context as external environment to programmatically examine
+  {
+    name: 'mikey_recursive_analyze',
+    description: 'RLM-inspired recursive analysis tool. Treats large datasets as external environment, uses chunked decomposition with sub-queries, variable accumulation, and verification passes. Strategies: filter_then_deep (regex narrow then analyze), chunk_aggregate (process chunks, merge results), verify_candidates (find candidates, verify each).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        source: {
+          type: 'string',
+          enum: ['memories', 'reflections', 'procedures', 'custom'],
+          description: 'Data source to analyze'
+        },
+        query: {
+          type: 'string',
+          description: 'What to find or analyze (natural language)'
+        },
+        strategy: {
+          type: 'string',
+          enum: ['filter_then_deep', 'chunk_aggregate', 'verify_candidates', 'auto'],
+          description: 'Analysis strategy (auto selects based on query)',
+          default: 'auto'
+        },
+        custom_data: {
+          type: 'array',
+          items: { type: 'object' },
+          description: 'Custom data array if source=custom'
+        },
+        chunk_size: {
+          type: 'number',
+          description: 'Items per chunk (default: 20)',
+          default: 20
+        },
+        max_depth: {
+          type: 'number',
+          description: 'Maximum recursion depth (default: 3)',
+          default: 3
+        },
+        filter_pattern: {
+          type: 'string',
+          description: 'Optional regex pattern for initial filtering'
+        }
+      },
+      required: ['source', 'query']
+    },
+    handler: async ({ source, query, strategy = 'auto', custom_data = null, chunk_size = 20, max_depth = 3, filter_pattern = null }) => {
+      try {
+        const db = new Database(BRAIN_DB_PATH);
+        const startTime = Date.now();
+
+        let output = `🔄 RLM Recursive Analysis\n`;
+        output += `═══════════════════════════════════════════════════\n\n`;
+        output += `📋 Query: ${query}\n`;
+        output += `📊 Source: ${source}\n`;
+
+        // Step 1: Load data based on source
+        let data = [];
+        if (source === 'memories') {
+          data = db.prepare(`SELECT key, value, type, created_at, accessed_at FROM memories ORDER BY accessed_at DESC`).all();
+        } else if (source === 'reflections') {
+          data = db.prepare(`SELECT key, value, type, created_at FROM memories WHERE type = 'reflection' ORDER BY created_at DESC`).all();
+        } else if (source === 'procedures') {
+          data = db.prepare(`SELECT * FROM procedures ORDER BY usage_count DESC`).all();
+        } else if (source === 'custom' && custom_data) {
+          data = custom_data;
+        }
+
+        output += `📦 Total items loaded: ${data.length}\n\n`;
+
+        if (data.length === 0) {
+          db.close();
+          return { content: [{ type: 'text', text: output + `⚠️ No data found for source: ${source}` }] };
+        }
+
+        // Step 2: Auto-select strategy if needed
+        if (strategy === 'auto') {
+          if (query.toLowerCase().includes('find') || query.toLowerCase().includes('search')) {
+            strategy = 'filter_then_deep';
+          } else if (query.toLowerCase().includes('summarize') || query.toLowerCase().includes('patterns')) {
+            strategy = 'chunk_aggregate';
+          } else if (query.toLowerCase().includes('verify') || query.toLowerCase().includes('check')) {
+            strategy = 'verify_candidates';
+          } else {
+            strategy = 'chunk_aggregate'; // Default
+          }
+        }
+        output += `🎯 Strategy: ${strategy}\n\n`;
+
+        // Accumulator for results (RLM variable accumulation pattern)
+        const accumulator = {
+          filtered: [],
+          chunks_processed: 0,
+          chunk_results: [],
+          candidates: [],
+          verified: [],
+          insights: []
+        };
+
+        // Step 3: Execute strategy
+        output += `📍 EXECUTION LOG\n`;
+        output += `─────────────────────────────────────────────────\n`;
+
+        if (strategy === 'filter_then_deep') {
+          // RLM Pattern: Use regex/keyword filtering to narrow search space first
+          output += `\n[Pass 1] Initial filtering...\n`;
+
+          // Extract keywords from query for filtering
+          const keywords = query.toLowerCase()
+            .replace(/[^a-z\s]/g, '')
+            .split(/\s+/)
+            .filter(w => w.length > 3 && !['find', 'search', 'what', 'which', 'that', 'have', 'with'].includes(w));
+
+          output += `   Keywords extracted: ${keywords.join(', ')}\n`;
+
+          // Apply filter pattern if provided, otherwise use keywords
+          let filtered = data;
+          if (filter_pattern) {
+            const regex = new RegExp(filter_pattern, 'i');
+            filtered = data.filter(item => {
+              const searchStr = JSON.stringify(item).toLowerCase();
+              return regex.test(searchStr);
+            });
+            output += `   Regex filter applied: ${filter_pattern}\n`;
+          } else if (keywords.length > 0) {
+            filtered = data.filter(item => {
+              const searchStr = JSON.stringify(item).toLowerCase();
+              return keywords.some(kw => searchStr.includes(kw));
+            });
+          }
+
+          accumulator.filtered = filtered;
+          output += `   Narrowed: ${data.length} → ${filtered.length} items\n`;
+
+          // Pass 2: Deep analysis on filtered set
+          output += `\n[Pass 2] Deep analysis on filtered set...\n`;
+
+          // Chunk the filtered data
+          const chunks = [];
+          for (let i = 0; i < filtered.length; i += chunk_size) {
+            chunks.push(filtered.slice(i, i + chunk_size));
+          }
+
+          output += `   Created ${chunks.length} chunks of ~${chunk_size} items\n`;
+
+          // Analyze each chunk
+          for (let i = 0; i < Math.min(chunks.length, max_depth * 2); i++) {
+            const chunk = chunks[i];
+            accumulator.chunks_processed++;
+
+            // Extract key information from chunk
+            const chunkSummary = {
+              chunk_id: i,
+              item_count: chunk.length,
+              types: [...new Set(chunk.map(item => item.type))],
+              keys: chunk.map(item => item.key || item.name).slice(0, 5),
+              relevance_score: 0
+            };
+
+            // Score relevance based on keyword matches
+            for (const item of chunk) {
+              const itemStr = JSON.stringify(item).toLowerCase();
+              for (const kw of keywords) {
+                if (itemStr.includes(kw)) chunkSummary.relevance_score++;
+              }
+            }
+
+            accumulator.chunk_results.push(chunkSummary);
+            output += `   Chunk ${i}: ${chunk.length} items, relevance=${chunkSummary.relevance_score}\n`;
+          }
+
+          // Pass 3: Aggregate results
+          output += `\n[Pass 3] Aggregating results...\n`;
+
+          // Sort by relevance
+          accumulator.chunk_results.sort((a, b) => b.relevance_score - a.relevance_score);
+
+          const topChunks = accumulator.chunk_results.slice(0, 3);
+          output += `   Top chunks by relevance: ${topChunks.map(c => `#${c.chunk_id}(${c.relevance_score})`).join(', ')}\n`;
+
+          // Extract top candidates
+          for (const chunkInfo of topChunks) {
+            const chunk = chunks[chunkInfo.chunk_id];
+            for (const item of chunk.slice(0, 5)) {
+              accumulator.candidates.push({
+                key: item.key || item.name,
+                type: item.type,
+                preview: JSON.stringify(item.value || item).substring(0, 100)
+              });
+            }
+          }
+
+        } else if (strategy === 'chunk_aggregate') {
+          // RLM Pattern: Process chunks independently, aggregate insights
+          output += `\n[Pass 1] Chunking data...\n`;
+
+          const chunks = [];
+          for (let i = 0; i < data.length; i += chunk_size) {
+            chunks.push(data.slice(i, i + chunk_size));
+          }
+          output += `   Created ${chunks.length} chunks\n`;
+
+          // Process each chunk
+          output += `\n[Pass 2] Processing chunks (max ${max_depth * 2})...\n`;
+
+          for (let i = 0; i < Math.min(chunks.length, max_depth * 2); i++) {
+            const chunk = chunks[i];
+            accumulator.chunks_processed++;
+
+            // Analyze chunk patterns
+            const chunkAnalysis = {
+              chunk_id: i,
+              size: chunk.length,
+              types: {},
+              keywords: {},
+              time_range: { earliest: null, latest: null }
+            };
+
+            for (const item of chunk) {
+              // Count types
+              const type = item.type || 'unknown';
+              chunkAnalysis.types[type] = (chunkAnalysis.types[type] || 0) + 1;
+
+              // Extract keywords from values
+              const valueStr = JSON.stringify(item.value || item).toLowerCase();
+              const words = valueStr.match(/[a-z]{4,}/g) || [];
+              for (const word of words.slice(0, 20)) {
+                chunkAnalysis.keywords[word] = (chunkAnalysis.keywords[word] || 0) + 1;
+              }
+
+              // Track time range
+              const timestamp = item.created_at || item.accessed_at;
+              if (timestamp) {
+                if (!chunkAnalysis.time_range.earliest || timestamp < chunkAnalysis.time_range.earliest) {
+                  chunkAnalysis.time_range.earliest = timestamp;
+                }
+                if (!chunkAnalysis.time_range.latest || timestamp > chunkAnalysis.time_range.latest) {
+                  chunkAnalysis.time_range.latest = timestamp;
+                }
+              }
+            }
+
+            // Find top keywords for this chunk
+            const topKeywords = Object.entries(chunkAnalysis.keywords)
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 5)
+              .map(([k, v]) => k);
+
+            accumulator.chunk_results.push({
+              chunk_id: i,
+              types: chunkAnalysis.types,
+              top_keywords: topKeywords,
+              time_range: chunkAnalysis.time_range
+            });
+
+            output += `   Chunk ${i}: types=${Object.keys(chunkAnalysis.types).join(',')}, keywords=${topKeywords.slice(0, 3).join(',')}\n`;
+          }
+
+          // Pass 3: Aggregate patterns across chunks
+          output += `\n[Pass 3] Aggregating cross-chunk patterns...\n`;
+
+          const globalTypes = {};
+          const globalKeywords = {};
+
+          for (const result of accumulator.chunk_results) {
+            for (const [type, count] of Object.entries(result.types)) {
+              globalTypes[type] = (globalTypes[type] || 0) + count;
+            }
+            for (const kw of result.top_keywords) {
+              globalKeywords[kw] = (globalKeywords[kw] || 0) + 1;
+            }
+          }
+
+          accumulator.insights.push({
+            type: 'type_distribution',
+            data: globalTypes
+          });
+
+          accumulator.insights.push({
+            type: 'recurring_themes',
+            data: Object.entries(globalKeywords)
+              .filter(([k, v]) => v >= 2)
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 10)
+              .map(([k, v]) => ({ keyword: k, chunks_present: v }))
+          });
+
+          output += `   Type distribution: ${JSON.stringify(globalTypes)}\n`;
+          output += `   Recurring themes: ${Object.entries(globalKeywords).filter(([k,v]) => v >= 2).slice(0, 5).map(([k,v]) => k).join(', ')}\n`;
+
+        } else if (strategy === 'verify_candidates') {
+          // RLM Pattern: Find candidates, then verify each with focused sub-analysis
+          output += `\n[Pass 1] Finding candidates...\n`;
+
+          // Extract keywords for candidate identification
+          const keywords = query.toLowerCase()
+            .replace(/[^a-z\s]/g, '')
+            .split(/\s+/)
+            .filter(w => w.length > 3);
+
+          // Find potential candidates
+          const candidates = data.filter(item => {
+            const itemStr = JSON.stringify(item).toLowerCase();
+            return keywords.some(kw => itemStr.includes(kw));
+          }).slice(0, chunk_size);
+
+          accumulator.candidates = candidates.map(item => ({
+            key: item.key || item.name,
+            type: item.type,
+            raw: item
+          }));
+
+          output += `   Found ${candidates.length} candidates matching keywords\n`;
+
+          // Pass 2: Verify each candidate
+          output += `\n[Pass 2] Verifying candidates (max ${max_depth * 3})...\n`;
+
+          for (let i = 0; i < Math.min(candidates.length, max_depth * 3); i++) {
+            const candidate = candidates[i];
+            const verification = {
+              key: candidate.key || candidate.name,
+              checks_passed: 0,
+              checks_failed: 0,
+              notes: []
+            };
+
+            // Verification checks
+            // Check 1: Has meaningful content
+            const valueStr = JSON.stringify(candidate.value || candidate);
+            if (valueStr.length > 50) {
+              verification.checks_passed++;
+              verification.notes.push('Has substantial content');
+            } else {
+              verification.checks_failed++;
+              verification.notes.push('Content too brief');
+            }
+
+            // Check 2: Recently accessed (if applicable)
+            if (candidate.accessed_at) {
+              const accessed = new Date(candidate.accessed_at);
+              const monthAgo = new Date();
+              monthAgo.setMonth(monthAgo.getMonth() - 1);
+              if (accessed > monthAgo) {
+                verification.checks_passed++;
+                verification.notes.push('Recently accessed');
+              } else {
+                verification.checks_failed++;
+                verification.notes.push('Not recently accessed');
+              }
+            }
+
+            // Check 3: Query relevance
+            let relevanceScore = 0;
+            for (const kw of keywords) {
+              if (valueStr.toLowerCase().includes(kw)) relevanceScore++;
+            }
+            if (relevanceScore >= keywords.length * 0.5) {
+              verification.checks_passed++;
+              verification.notes.push(`High relevance (${relevanceScore}/${keywords.length} keywords)`);
+            }
+
+            verification.verdict = verification.checks_passed > verification.checks_failed ? 'VERIFIED' : 'WEAK';
+
+            if (verification.verdict === 'VERIFIED') {
+              accumulator.verified.push(verification);
+            }
+
+            output += `   ${candidate.key || candidate.name}: ${verification.verdict} (${verification.checks_passed}✓ ${verification.checks_failed}✗)\n`;
+          }
+
+          output += `\n   Verified: ${accumulator.verified.length} of ${Math.min(candidates.length, max_depth * 3)} checked\n`;
+        }
+
+        // Step 4: Generate final output (RLM FINAL pattern)
+        output += `\n📊 RESULTS\n`;
+        output += `═══════════════════════════════════════════════════\n\n`;
+
+        const elapsed = Date.now() - startTime;
+        output += `⏱️ Analysis completed in ${elapsed}ms\n`;
+        output += `📦 Chunks processed: ${accumulator.chunks_processed}\n`;
+
+        if (accumulator.filtered.length > 0) {
+          output += `🔍 Filtered to: ${accumulator.filtered.length} items\n`;
+        }
+
+        if (accumulator.candidates.length > 0) {
+          output += `\n🎯 Top Candidates:\n`;
+          for (const c of accumulator.candidates.slice(0, 10)) {
+            output += `   • ${c.key} (${c.type})\n`;
+            if (c.preview) output += `     ${c.preview.substring(0, 80)}...\n`;
+          }
+        }
+
+        if (accumulator.verified.length > 0) {
+          output += `\n✅ Verified Results:\n`;
+          for (const v of accumulator.verified) {
+            output += `   • ${v.key}: ${v.notes.join(', ')}\n`;
+          }
+        }
+
+        if (accumulator.insights.length > 0) {
+          output += `\n💡 Insights:\n`;
+          for (const insight of accumulator.insights) {
+            if (insight.type === 'type_distribution') {
+              output += `   Type distribution: ${JSON.stringify(insight.data)}\n`;
+            } else if (insight.type === 'recurring_themes') {
+              output += `   Recurring themes: ${insight.data.map(t => t.keyword).join(', ')}\n`;
+            }
+          }
+        }
+
+        // Store analysis result
+        const analysisKey = `recursive_analysis_${Date.now()}`;
+        db.prepare(`
+          INSERT INTO memories (key, value, type, created_at, accessed_at)
+          VALUES (?, ?, 'analysis', datetime('now'), datetime('now'))
+        `).run(analysisKey, JSON.stringify({
+          query,
+          source,
+          strategy,
+          results: {
+            filtered_count: accumulator.filtered.length,
+            chunks_processed: accumulator.chunks_processed,
+            candidates: accumulator.candidates.length,
+            verified: accumulator.verified.length,
+            insights: accumulator.insights
+          },
+          elapsed_ms: elapsed
+        }));
+
+        db.close();
+
+        output += `\n📝 Analysis stored as: ${analysisKey}`;
+
+        return { content: [{ type: 'text', text: output }] };
+      } catch (error) {
+        return { content: [{ type: 'text', text: `❌ Error: ${error.message}\n${error.stack}` }] };
+      }
+    }
+  }
 ];
 
 // Create and configure server
