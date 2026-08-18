@@ -1,564 +1,315 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brain Execution Monitor</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: #1a1a1a;
-            color: #e0e0e0;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            color: #fff;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .status {
-            background: #2a2a2a;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
-            border: 1px solid #333;
-        }
-        
-        .status.connected {
-            border-color: #4CAF50;
-        }
-        
-        .status.error {
-            background: #3a2020;
-            border-color: #f44336;
-        }
-        
-        .controls {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        button {
-            background: #2196F3;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        button:hover {
-            background: #1976D2;
-        }
-        
-        button:disabled {
-            background: #555;
-            cursor: not-allowed;
-        }
-        
-        .executions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .execution-card {
-            background: #2a2a2a;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 0;
-            overflow: hidden;
-            transition: all 0.2s;
-        }
-        
-        .execution-card:hover {
-            border-color: #555;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-        
-        .execution-header {
-            display: grid;
-            grid-template-columns: 90px 80px 100px 1fr auto;
-            align-items: center;
-            padding: 12px 15px;
-            cursor: pointer;
-            background: #333;
-            transition: background 0.2s;
-        }
-        
-        .execution-header:hover {
-            background: #3a3a3a;
-        }
-        
-        .execution-time {
-            font-family: 'SF Mono', Monaco, monospace;
-            font-size: 14px;
-            color: #999;
-        }
-        
-        .language-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-align: center;
-            width: 60px;
-        }
-        
-        .language-badge.python {
-            background: #5599ff;
-            color: #FFD43B;
-        }
-        
-        .language-badge.shell {
-            background: #4EAA25;
-            color: #fff;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            text-align: center;
-            width: 80px;
-        }
-        
-        .status-badge.running {
-            background: #2196F3;
-            color: #fff;
-            animation: pulse 1.5s infinite;
-        }
-        
-        .status-badge.completed {
-            background: #4CAF50;
-            color: #fff;
-        }
-        
-        .status-badge.failed {
-            background: #f44336;
-            color: #fff;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-        
-        .execution-description {
-            color: #ccc;
-            font-size: 14px;
-            padding-right: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        
-        .execution-description > div:first-child {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .shell-command-preview {
-            font-family: 'SF Mono', Monaco, monospace;
-            font-size: 12px;
-            color: #4EAA25;
-            opacity: 0.8;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .execution-toggle {
-            color: #999;
-            font-size: 20px;
-            transition: transform 0.2s;
-        }
-        
-        .execution-card.expanded .execution-toggle {
-            transform: rotate(90deg);
-        }
-        
-        .execution-details {
-            display: none;
-            padding: 15px;
-            background: #252525;
-            border-top: 1px solid #333;
-        }
-        
-        .execution-card.expanded .execution-details {
-            display: block;
-        }
-        
-        .code-section, .output-section {
-            margin-bottom: 15px;
-        }
-        
-        .section-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            color: #aaa;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-        
-        .code-block {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 4px;
-            padding: 10px;
-            font-family: 'SF Mono', Monaco, monospace;
-            font-size: 13px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            line-height: 1.5;
-        }
-        
-        .code-block.shell-command {
-            color: #4EAA25;
-        }
-        
-        .code-block.python-code {
-            color: #66ff66;
-        }
-        
-        .output-block {
-            background: #0a0a0a;
-            border: 1px solid #333;
-            border-radius: 4px;
-            padding: 10px;
-            font-family: 'SF Mono', Monaco, monospace;
-            font-size: 13px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            color: #99eeff;
-            line-height: 1.5;
-        }
-        
-        .error-block {
-            background: #2a0a0a;
-            border: 1px solid #633;
-            color: #ff9998;
-        }
-        
-        .execution-meta {
-            display: flex;
-            gap: 20px;
-            margin-top: 10px;
-            font-size: 12px;
-            color: #888;
-        }
-        
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-        
-        .empty-state h2 {
-            margin-bottom: 10px;
-        }
-        
-        /* Dark scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #1a1a1a;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #444;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brain Monitor</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 18px; background: #1a1a1a; color: #e0e0e0; }
+  .container { max-width: 1500px; margin: 0 auto; }
+  h1 { color: #fff; margin: 0 0 12px; display: flex; align-items: center; gap: 10px; font-size: 22px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 16px; border-bottom: 1px solid #333; }
+  .tab { padding: 10px 18px; cursor: pointer; color: #999; border: 1px solid transparent; border-bottom: none; border-radius: 8px 8px 0 0; font-size: 14px; }
+  .tab:hover { color: #ddd; background: #232323; }
+  .tab.active { color: #fff; background: #2a2a2a; border-color: #333; }
+  .panel { display: none; } .panel.active { display: block; }
+  .status { background: #2a2a2a; padding: 12px 15px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #333; font-size: 13px; }
+  .status.connected { border-color: #4CAF50; } .status.error { background: #3a2020; border-color: #f44336; }
+  .controls { margin-bottom: 14px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  button { background: #2196F3; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  button:hover { background: #1976D2; } button.ghost { background: #333; } button.ghost:hover { background: #3f3f3f; }
+  button.on { background: #b23c34; }
+  select, input[type=text] { background: #202020; color: #e0e0e0; border: 1px solid #3a3a3a; border-radius: 6px; padding: 8px 10px; font-size: 13px; }
+  select { min-width: 300px; }
+  label.chk { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #ccc; cursor: pointer; }
+
+  /* behavioral-profile strip */
+  .stats { background:#101820; border:1px solid #24343f; border-radius:6px; padding:8px 11px; margin-bottom:10px;
+           font-family:'SF Mono',Monaco,monospace; font-size:12px; color:#9cc; line-height:1.7; }
+  .stats b { color:#cfe; } .stats .sbad { color:#ff9b93; font-weight:600; } .stats .sok { color:#7CFC9B; font-weight:600; }
+  .stats .pill { display:inline-block; background:#18242c; border:1px solid #2a3d48; border-radius:10px; padding:1px 8px; margin:2px 3px; }
+
+  #liveFeed { background: #0c0c0c; border: 1px solid #333; border-radius: 8px; padding: 10px 12px; height: 70vh; overflow: auto; font-size: 12.5px; line-height: 1.5; }
+  .ln { display: block; white-space: pre-wrap; word-wrap: break-word; font-family: 'SF Mono', Monaco, monospace; }
+  .ln.pass { color: #7CFC9B; font-weight: 600; } .ln.fail { color: #ff8a80; } .ln.phase { color: #ffd479; font-weight: 600; }
+  .ln.tool { color: #7fd0ff; } .ln.critic { color: #d59bff; } .ln.dim { color: #777; }
+
+  .turn { border: 1px solid #2c2c2c; border-left: 3px solid #3a5a8a; border-radius: 6px; margin: 7px 0; padding: 7px 10px; background: #141414; }
+  .turn.t-bad { border-left-color: #8a3a3a; }
+  .turn.t-rep { opacity: .82; }
+  .turnhead { font-size: 11px; color: #9ab; font-weight: 600; margin-bottom: 4px; letter-spacing: .3px; }
+  .turnhead .k { color: #667; font-weight: 400; }
+  .repeat { color: #ffb454; font-weight: 600; }
+  details.reason { margin: 3px 0; } details.reason > summary { color:#c7a6ff; cursor:pointer; font-family:'SF Mono',Monaco,monospace; font-size:12px; list-style:none; }
+  details.reason > summary::-webkit-details-marker { display:none; }
+  details.reason > summary::before { content:'💭 '; }
+  details.reason .full { color:#c7a6ff; white-space:pre-wrap; word-wrap:break-word; font-family:'SF Mono',Monaco,monospace; font-size:12px; margin-top:3px; border-left:2px solid #3a2e5a; padding-left:7px; }
+  .action { color: #7fd0ff; white-space: pre-wrap; word-wrap: break-word; margin: 3px 0; font-family: 'SF Mono', Monaco, monospace; }
+  .action b { color: #b8e6ff; }
+  .outcome { color: #9fb0bb; white-space: pre-wrap; word-wrap: break-word; margin: 3px 0 1px; font-family: 'SF Mono', Monaco, monospace;
+             background: #0a0a0a; border: 1px solid #262626; border-radius: 4px; padding: 5px 7px; }
+  .outcome.bad { color: #ff9b93; border-color: #5a2a2a; background: #1c0f0f; }
+  .hsig { color:#ffd479; background:#231a0e; border:1px solid #5a441e; border-radius:4px; padding:3px 6px; margin:3px 0 1px;
+          font-family:'SF Mono',Monaco,monospace; font-size:11.5px; white-space:pre-wrap; word-wrap:break-word; }
+  .k { color: #667; }
+  .banner { padding: 5px 10px; margin: 8px 0; border-radius: 5px; font-weight: 600; font-size: 12px; font-family: 'SF Mono', Monaco, monospace; white-space:pre-wrap; word-wrap:break-word; }
+  .banner.phase_start { background: #14241a; color: #8fe0a8; border: 1px solid #2e5a3e; }
+  .banner.phase_end { background: #1a2230; color: #9ac0ff; border: 1px solid #2e466a; }
+  .banner.stalled { background: #2a1c0e; color: #ffce8a; border: 1px solid #6a4a1e; }
+  .banner.critic { background: #201430; color: #d59bff; border: 1px solid #4a2e6a; }
+  .banner.gate { background: #2a1010; color: #ff9b93; border: 1px solid #6a2e2e; }
+  .banner.declared { background: #14241a; color: #7CFC9B; border: 1px solid #2e5a3e; }
+
+  .executions { display: flex; flex-direction: column; gap: 10px; }
+  .execution-card { background: #2a2a2a; border: 1px solid #333; border-radius: 8px; overflow: hidden; }
+  .execution-header { display: grid; grid-template-columns: 110px 80px 100px 1fr auto; align-items: center; padding: 12px 15px; cursor: pointer; background: #303030; gap: 10px; }
+  .execution-header:hover { background: #383838; } .execution-time { font-family: 'SF Mono', Monaco, monospace; font-size: 13px; color: #999; }
+  .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; text-align: center; }
+  .badge.python { background: #375a7f; color: #FFD43B; } .badge.shell { background: #4EAA25; color: #fff; } .badge.unknown { background: #555; color: #ddd; }
+  .badge.completed { background: #3d7a44; color: #fff; } .badge.running { background: #2196F3; color: #fff; } .badge.failed { background: #b23c34; color: #fff; }
+  .execution-desc { color: #ccc; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .execution-details { display: none; padding: 15px; background: #232323; border-top: 1px solid #333; }
+  .execution-card.expanded .execution-details { display: block; }
+  .section-title { font-size: 11px; text-transform: uppercase; color: #aaa; margin: 12px 0 6px; }
+  .code-block, .output-block { background: #141414; border: 1px solid #333; border-radius: 4px; padding: 10px; font-family: 'SF Mono', Monaco, monospace; font-size: 13px; white-space: pre-wrap; word-wrap: break-word; overflow-x: auto; }
+  .code-block { color: #8f8; } .output-block { color: #9ef; } .error-block { background: #2a0e0e; border-color: #633; color: #f99; }
+  .empty-state { text-align: center; padding: 50px 20px; color: #666; }
+  ::-webkit-scrollbar { width: 9px; height: 9px; } ::-webkit-scrollbar-track { background: #141414; } ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>🧠 Brain Execution Monitor</h1>
-        
-        <div class="status" id="status">
-            Connecting to Brain Execution API...
-        </div>
-        
-        <div class="controls">
-            <button onclick="refresh()" id="refreshBtn">🔄 Refresh</button>
-            <button onclick="toggleAutoRefresh()" id="autoRefreshBtn">⏸️ Pause Auto-Refresh</button>
-            <button onclick="clearOldLogs()">🗑️ Clear Old Logs</button>
-        </div>
-        
-        <div class="executions" id="executions">
-            <div class="empty-state">
-                <h2>No executions yet</h2>
-                <p>Execute some code through Brain to see it here</p>
-            </div>
-        </div>
+<div class="container">
+  <h1>🧠 Brain Monitor</h1>
+  <div class="tabs">
+    <div class="tab active" data-tab="live" onclick="switchTab('live')">📡 LLMOS Live</div>
+    <div class="tab" data-tab="brain" onclick="switchTab('brain')">🧠 Brain Executions</div>
+  </div>
+
+  <div class="panel active" id="panel-live">
+    <div class="status" id="liveStatus">Connecting to LLMOS live server…</div>
+    <div class="controls">
+      <select id="runSelect" onchange="selectRun()"></select>
+      <button class="ghost" onclick="loadRuns()">🔄 Sources</button>
+      <label class="chk"><input type="checkbox" id="followChk" checked onchange="onFollowToggle()"> Follow</label>
+      <button class="ghost" id="errBtn" onclick="toggleErrOnly()">⚑ Errors only</button>
+      <input type="text" id="filterBox" placeholder="filter…" oninput="renderLive()" style="min-width:200px">
+      <button class="ghost" onclick="jumpBottom()">⬇ Bottom</button>
+      <button class="ghost" onclick="clearFeed()">Clear</button>
     </div>
+    <div id="liveStats" class="stats" style="display:none"></div>
+    <div id="liveFeed"><div class="empty-state">Pick a run above. A ◆ events source shows reason → action → outcome per turn, a behavioral profile, loop flags, and the harness's own diagnostics.</div></div>
+  </div>
 
-    <script>
-        const API_BASE = 'http://localhost:9998';
-        let autoRefreshInterval = null;
-        let isAutoRefreshing = true;
-        let expandedCards = new Set();
-        
-        function formatTime(timestamp) {
-            const date = new Date(timestamp);
-            const hours = date.getHours().toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            const seconds = date.getSeconds().toString().padStart(2, '0');
-            const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
-            const displayHours = date.getHours() % 12 || 12;
-            return `${displayHours.toString().padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
-        }
-        
-        function formatLanguage(language) {
-            return language ? language.toUpperCase() : 'UNKNOWN';
-        }
-        
-        function toggleCard(executionId) {
-            const card = document.getElementById(`card-${executionId}`);
-            if (card.classList.contains('expanded')) {
-                card.classList.remove('expanded');
-                expandedCards.delete(executionId);
-            } else {
-                card.classList.add('expanded');
-                expandedCards.add(executionId);
-                // Load full details if not already loaded
-                loadExecutionDetails(executionId);
-            }
-        }
-        
-        // Find and replace the loadExecutionDetails function
-async function loadExecutionDetails(executionId) {
-    try {
-        const res = await fetch(`${API_BASE}/api/brain/executions/${executionId}`);
-        const data = await res.json();
-        
-        const detailsDiv = document.getElementById(`details-${executionId}`);
-        if (!detailsDiv || detailsDiv.dataset.loaded === 'true') return;
-        
-        // Our API returns a flat object, not entries array
-        const code = data.code || '';
-        const output = data.output || '';
-        const errors = data.error || '';
-        const language = data.type || 'python';
-        const executionTime = data.execution_time || 0;
-        
-        // Create the details HTML
-        let detailsHtml = '';
-        
-        // Code section
-        detailsHtml += `
-            <div class="code-section">
-                <div class="section-title">Code</div>
-                <div class="code-block ${language === 'shell' ? 'shell-command' : 'python-code'}">${escapeHtml(code)}</div>
-            </div>
-        `;
-        
-        // Output section
-        if (output) {
-            detailsHtml += `
-                <div class="output-section">
-                    <div class="section-title">Output</div>
-                    <div class="output-block">${escapeHtml(output)}</div>
-                </div>
-            `;
-        }
-        
-        // Error section
-        if (errors) {
-            detailsHtml += `
-                <div class="output-section">
-                    <div class="section-title">Errors</div>
-                    <div class="output-block error-block">${escapeHtml(errors)}</div>
-                </div>
-            `;
-        }
-        
-        // Metadata
-        detailsHtml += `
-            <div class="execution-meta">
-                <div class="meta-item">⏱️ ${executionTime}ms</div>
-                <div class="meta-item">🗂️ ${executionId}</div>
-            </div>
-        `;
-        
-        detailsDiv.innerHTML = detailsHtml;
-        detailsDiv.dataset.loaded = 'true';
-        
-    } catch (err) {
-        console.error('Error loading details:', err);
-        const detailsDiv = document.getElementById(`details-${executionId}`);
-        if (detailsDiv) {
-            detailsDiv.innerHTML = `
-                <div style="color: #f44336; text-align: center; padding: 20px;">
-                    Error loading details: ${err.message}
-                </div>
-            `;
-        }
+  <div class="panel" id="panel-brain">
+    <div class="status" id="brainStatus">Connecting to Brain Execution API…</div>
+    <div class="controls">
+      <button onclick="refreshBrain()">🔄 Refresh</button>
+      <button class="ghost" onclick="toggleBrainAuto()" id="brainAutoBtn">⏸ Pause auto-refresh</button>
+    </div>
+    <div class="executions" id="executions"><div class="empty-state"><h2>No executions yet</h2></div></div>
+  </div>
+</div>
+
+<script>
+const LIVE_API  = 'http://192.168.12.232:8899';
+const BRAIN_API = 'http://localhost:9998';
+let curRun=null, feedOffset=0, feedBuf='', feedEvents=[], following=true, livePollTimer=null, errOnly=false;
+
+function esc(t){ const d=document.createElement('div'); d.textContent=(t==null?'':String(t)); return d.innerHTML; }
+function clip(s,n){ s=s==null?'':String(s); return s.length>n ? s.slice(0,n)+' …[+'+(s.length-n)+']' : s; }
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+}
+
+/* ---------- outcome interpretation (shared) ---------- */
+const BAD_RE=/(error|Error|Traceback|SyntaxError|NameError|IndentationError|FileNotFound|ModuleNotFound|"exit":\s*1|'exit':\s*1|"ok":\s*false|'ok':\s*False|not found|no such|REFUSED|GATE-REJECTED|patch_restored|UNPARSEABLE|FAIL)/;
+function resultOf(it){ const r=it.result||{}; return it.result?r.result:undefined; }
+function resultStr(res){ return res==null?'':(typeof res==='string'?res:JSON.stringify(res)); }
+function isBad(it){ if(!it.result) return false; return BAD_RE.test(resultStr(resultOf(it))); }
+/* signature for loop detection: tool + shape of the outcome, digits/paths blurred */
+function outcomeSig(it){
+  const res=resultOf(it); let s='';
+  if(res&&typeof res==='object'){ s=res.error||res.stderr||res.stdout||res.edited||JSON.stringify(res); }
+  else s=String(res||'');
+  s=String(s).replace(/0x[0-9a-f]+|[0-9]+/g,'#').slice(0,110);
+  return ((it.call&&it.call.tool)||'?')+'|'+s;
+}
+
+/* ---------- LIVE ---------- */
+async function loadRuns(){
+  try{
+    const r=await fetch(LIVE_API+'/api/live/runs',{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
+    const j=await r.json(), sel=document.getElementById('runSelect'); const prev=curRun?curRun.id:(sel.value||'');
+    sel.innerHTML=''; if(!j.runs.length) sel.innerHTML='<option value="">(no runs under ~/swe/runs)</option>';
+    j.runs.forEach(run=>{ const o=document.createElement('option'); o.value=run.id; o.dataset.kind=run.kind;
+      o.textContent=`${run.kind==='events'?'◆':'▤'} ${run.label} · ${(run.size/1024).toFixed(0)} KB · ${ago(run.mtime)}`; sel.appendChild(o); });
+    setStatus('liveStatus','connected',`Connected · ${j.runs.length} source(s). ◆ = rich events (reason/action/outcome), ▤ = raw log.`);
+    if(prev && [...sel.options].some(o=>o.value===prev)) sel.value=prev; else if(sel.options.length){ sel.selectedIndex=0; selectRun(); }
+  }catch(e){ setStatus('liveStatus','error',`Can't reach the live server at ${LIVE_API}. Running on pop? (${e.message})`); }
+}
+function ago(m){ const s=Math.max(0,Date.now()/1000-m); if(s<90)return Math.round(s)+'s ago'; if(s<5400)return Math.round(s/60)+'m ago'; return Math.round(s/3600)+'h ago'; }
+function selectRun(){
+  const sel=document.getElementById('runSelect'), opt=sel.options[sel.selectedIndex];
+  if(!opt||!opt.value){ curRun=null; return; }
+  curRun={id:opt.value, kind:opt.dataset.kind||'log'}; feedOffset=0; feedBuf=''; feedEvents=[];
+  document.getElementById('liveStats').style.display='none';
+  document.getElementById('liveFeed').innerHTML='<div class="empty-state">Loading…</div>'; pollLive(true);
+}
+async function pollLive(reset){
+  if(!curRun){ scheduleLive(); return; }
+  try{
+    const url=`${LIVE_API}/api/live/tail?path=${encodeURIComponent(curRun.id)}&offset=${reset?0:feedOffset}&max=262144`;
+    const r=await fetch(url,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
+    const j=await r.json(); feedOffset=j.offset;
+    if(j.data){
+      if(curRun.kind==='events'){ feedBuf+=j.data; let idx;
+        while((idx=feedBuf.indexOf('\n'))>=0){ const line=feedBuf.slice(0,idx); feedBuf=feedBuf.slice(idx+1);
+          if(line.trim()){ try{ feedEvents.push(JSON.parse(line)); }catch(_){} } }
+      } else feedBuf+=j.data;
+      renderLive();
     }
+    const pct=j.size?Math.min(100,Math.round(100*j.offset/j.size)):100;
+    setStatus('liveStatus','connected',`${curRun.kind==='events'?'events':'log'} · ${curRun.id} · ${(j.size/1024).toFixed(0)} KB · `+(j.eof?'live, caught up':`catching up ${pct}%`)+(following?' · following':' · paused'));
+  }catch(e){ setStatus('liveStatus','error',`tail failed: ${e.message}`); }
+  scheduleLive();
 }
+function scheduleLive(){ clearTimeout(livePollTimer); livePollTimer=setTimeout(()=>pollLive(false),1200); }
 
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+function groupEvents(evs){
+  const items=[], idx={};
+  for(const e of evs){ const t=e.type;
+    if(t==='generation'||t==='tool_call'||t==='tool_result'){ const key=(e.phase||'')+'#'+e.turn;
+      if(idx[key]===undefined){ idx[key]=items.length; items.push({kind:'turn',phase:e.phase||'',turn:e.turn,gen:null,call:null,result:null}); }
+      const it=items[idx[key]]; if(t==='generation') it.gen=e; else if(t==='tool_call') it.call=e; else it.result=e;
+    } else items.push({kind:'banner',ev:e});
+  }
+  return items;
 }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        async function refresh() {
-            try {
-                const res = await fetch(`${API_BASE}/api/brain/executions`);
-                if (!res.ok) throw new Error('API not responding');
-                
-                const data = await res.json();
-                
-                // Update status
-                document.getElementById('status').innerHTML = `
-                    <strong>API:</strong> Connected<br>
-                    <strong>Executions:</strong> ${data.count} displayed (${data.total_available} total)
-                `;
-                document.getElementById('status').className = 'status connected';
-                
-                // Update executions list
-                if (data.executions.length === 0) {
-                    document.getElementById('executions').innerHTML = `
-                        <div class="empty-state">
-                            <h2>No executions yet</h2>
-                            <p>Execute some code through Brain to see it here</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                const executionsHtml = data.executions.map(exec => {
-                    const isExpanded = expandedCards.has(exec.id);
-                    const languageClass = exec.language === 'shell' ? 'shell' : 'python';
-                    const statusClass = exec.status || 'completed';
-                    
-                    // For shell commands, show the command preview on second line
-                    const shellCommandPreview = exec.language === 'shell' && exec.code_preview ? 
-                        `<div class="shell-command-preview">$ ${escapeHtml(exec.code_preview.trim())}</div>` : '';
-                    
-                    return `
-                        <div class="execution-card ${isExpanded ? 'expanded' : ''}" id="card-${exec.id}">
-                            <div class="execution-header" onclick="toggleCard('${exec.id}')">
-                                <div class="execution-time">${formatTime(exec.timestamp)}</div>
-                                <div class="language-badge ${languageClass}">${formatLanguage(exec.language)}</div>
-                                <div class="status-badge ${statusClass}">${exec.status}</div>
-                                <div class="execution-description">
-                                    <div>${exec.description || 'No description'}</div>
-                                    ${shellCommandPreview}
-                                </div>
-                                <div class="execution-toggle">▶</div>
-                            </div>
-                            <div class="execution-details" id="details-${exec.id}" data-loaded="false">
-                                <div style="text-align: center; color: #999; padding: 20px;">
-                                    Loading details...
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                document.getElementById('executions').innerHTML = executionsHtml;
-                
-            } catch (err) {
-                document.getElementById('status').innerHTML = `
-                    <strong>Error:</strong> ${err.message}<br>
-                    Make sure the Brain Execution API is running on port ${API_BASE.split(':')[2]}
-                `;
-                document.getElementById('status').className = 'status error';
-            }
-        }
-        
-        function toggleAutoRefresh() {
-            isAutoRefreshing = !isAutoRefreshing;
-            const btn = document.getElementById('autoRefreshBtn');
-            
-            if (isAutoRefreshing) {
-                btn.innerHTML = '⏸️ Pause Auto-Refresh';
-                startAutoRefresh();
-            } else {
-                btn.innerHTML = '▶️ Resume Auto-Refresh';
-                stopAutoRefresh();
-            }
-        }
-        
-        function startAutoRefresh() {
-            if (autoRefreshInterval) return;
-            autoRefreshInterval = setInterval(refresh, 3000);
-        }
-        
-        function stopAutoRefresh() {
-            if (autoRefreshInterval) {
-                clearInterval(autoRefreshInterval);
-                autoRefreshInterval = null;
-            }
-        }
-        
-        async function clearOldLogs() {
-            if (!confirm('Clear execution logs older than 24 hours?')) return;
-            
-            try {
-                // This would need an API endpoint to clear old logs
-                alert('Clear logs functionality not yet implemented');
-            } catch (err) {
-                alert('Error clearing logs: ' + err.message);
-            }
-        }
-        
-        // Initialize
-        refresh();
-        if (isAutoRefreshing) {
-            startAutoRefresh();
-        }
-    </script>
+function computeStats(evs){
+  const s={inst:'',phase:'',turn:0,tokens:0,tools:{},fails:0,reverts:0,stalled:false,resolved:null};
+  const items=groupEvents(evs);
+  for(const e of evs){
+    if(e.instance_id) s.inst=e.instance_id;
+    if(e.type==='generation'){ s.tokens+=(e.eval_tokens||0); if(e.phase) s.phase=e.phase; if(e.turn!=null) s.turn=e.turn; }
+    if(e.type==='tool_call'){ s.tools[e.tool]=(s.tools[e.tool]||0)+1; }
+    if(e.type==='stalled') s.stalled=true;
+    if(e.type==='phase_end' && e.reason) s.lastEnd=e.reason;
+  }
+  for(const it of items){ if(it.kind!=='turn') continue; if(isBad(it)) s.fails++;
+    const rs=resultStr(resultOf(it)); if(/patch_restored/.test(rs)) s.reverts++; }
+  return s;
+}
+function renderStats(s){
+  const tools=Object.entries(s.tools).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<span class="pill">${esc(k)}×${v}</span>`).join(' ');
+  return `<b>${esc(s.inst||'—')}</b> · ${esc(s.phase||'—')} phase · turn ${s.turn} · ${(s.tokens/1000).toFixed(0)}k gen-tok`
+    + `${s.lastEnd?` · <span class="k">last phase: ${esc(s.lastEnd)}</span>`:''}<br>${tools}`
+    + `${s.fails?` &nbsp; <span class="sbad">${s.fails} failed outcome${s.fails>1?'s':''}</span>`:''}`
+    + `${s.reverts?` · <span class="sbad">${s.reverts} self-revert${s.reverts>1?'s':''} (git checkout of own patch)</span>`:''}`
+    + `${s.stalled?' · <span class="sbad">⏹ STALLED</span>':''}`;
+}
+function renderTurn(it, repeatOf){
+  const g=it.gen||{}, c=it.call||{};
+  const reason=(g.reasoning||'').trim(), content=(g.content||'').trim();
+  const tool=c.tool||(it.result?'?':'(thinking…)');
+  const args=c.args!=null?(typeof c.args==='string'?c.args:JSON.stringify(c.args)):'';
+  const res=it.result?resultOf(it):undefined;
+  const resObj=(res&&typeof res==='object')?res:null;
+  const resStr=it.result?(res==null?'(no result)':resultStr(res)):'…running';
+  const bad=isBad(it);
+  let sigs='';
+  if(resObj){ for(const k of ['hint','patch_restored','repo_mutation','error_web_search','note']){
+      if(resObj[k]) sigs+=`<div class="hsig">⚑ ${esc(k)}: ${esc(clip(typeof resObj[k]==='string'?resObj[k]:JSON.stringify(resObj[k]),450))}</div>`; } }
+  const rlead=reason?clip(reason.split('\n')[0],120):(content?clip(content.split('\n')[0],120):'');
+  const reasonHtml = reason
+    ? `<details class="reason"><summary>${esc(rlead)}</summary><div class="full">${esc(clip(reason,4000))}</div></details>`
+    : (content?`<div class="action" style="color:#c7a6ff">${esc(clip(content,700))}</div>`:'');
+  return `<div class="turn${bad?' t-bad':''}${repeatOf?' t-rep':''}">
+    <div class="turnhead">turn ${it.turn} <span class="k">· ${esc(it.phase)}</span>${g.eval_tokens!=null?` <span class="k">· ${g.eval_tokens} tok</span>`:''}${repeatOf?` <span class="repeat">↻ repeat of ${esc(repeatOf)}</span>`:''}</div>
+    ${reasonHtml}
+    <div class="action">→ <b>${esc(tool)}</b>(${esc(clip(args,650))})${c.function?` <span class="k">[${esc(c.function)}]</span>`:''}</div>
+    <div class="outcome ${bad?'bad':''}">⇒ ${esc(clip(resStr,2400))}</div>${sigs}
+  </div>`;
+}
+function renderBanner(e){
+  const t=e.type; let txt;
+  if(t==='phase_start') txt=`▶ ${e.phase} phase start · budget ${e.budget!=null?e.budget:'?'}${e.repo?' · '+e.repo:''}`;
+  else if(t==='phase_end') txt=`■ ${e.phase} phase end · ${e.reason||''}${e.env_ok!=null?' · env_ok='+e.env_ok:''}`;
+  else if(t==='stalled') txt=`⏹ STALLED — no-progress watchdog fired (window ${e.window})`;
+  else if(t==='critic') txt=`⚠ critic (t${e.turn}): ${(e.advice||'').slice(0,400)}`;
+  else if(t==='gate') txt=`⛔ gate ${e.decision||''} (t${e.turn})`;
+  else if(t==='declared') txt=`✔ declared ${e.tool||''} (t${e.turn})`;
+  else { const {type,instance_id,run_id,ts,...rest}=e; txt=`${t}: ${clip(JSON.stringify(rest),300)}`; }
+  return `<div class="banner ${esc(t)}">${esc(txt)}</div>`;
+}
+function itemText(it){ if(it.kind==='banner') return JSON.stringify(it.ev);
+  const g=it.gen||{},c=it.call||{}; return [g.reasoning,g.content,c.tool,JSON.stringify(c.args),resultStr(resultOf(it))].join(' '); }
+function lineClass(l){
+  if(/\bPASS\b|RESOLVED|DECLARED|✅/.test(l)) return 'pass';
+  if(/\bFAIL|ERROR|Error|Traceback|GATE-REJECTED|STALLED/.test(l)) return 'fail';
+  if(/\[critic\]/.test(l)) return 'critic';
+  if(/=== |phase ?\d|-- phase/.test(l)) return 'phase';
+  if(/->/.test(l)||/^\s*\[\s*\d+\]/.test(l)) return 'tool';
+  return 'dim';
+}
+function renderLive(){
+  const feed=document.getElementById('liveFeed'), statsEl=document.getElementById('liveStats');
+  const filter=document.getElementById('filterBox').value.trim().toLowerCase();
+  const nearBottom=feed.scrollHeight-feed.scrollTop-feed.clientHeight<80;
+  let html;
+  if(curRun && curRun.kind==='events'){
+    statsEl.style.display='block'; statsEl.innerHTML=renderStats(computeStats(feedEvents));
+    const items=groupEvents(feedEvents); const seen={};
+    for(const it of items){ if(it.kind!=='turn') continue; const sg=outcomeSig(it);
+      if(seen[sg]===undefined){ seen[sg]='t'+it.turn+(it.phase?'/'+it.phase[0]:''); it._rep=null; } else it._rep=seen[sg]; }
+    const vis=items.filter(it=>{
+      if(errOnly && !(it.kind==='turn'?isBad(it):/stalled|gate/.test(it.ev.type))) return false;
+      return !filter||itemText(it).toLowerCase().includes(filter);
+    });
+    html=vis.map(it=>it.kind==='banner'?renderBanner(it.ev):renderTurn(it,it._rep)).join('');
+  }else{
+    statsEl.style.display='none';
+    html=feedBuf.split('\n').filter(l=>(!errOnly||/FAIL|Error|error|Traceback|not found/.test(l))&&(!filter||l.toLowerCase().includes(filter)))
+        .map(l=>`<span class="ln ${lineClass(l)}">${esc(l)||'&nbsp;'}</span>`).join('');
+  }
+  feed.innerHTML=html||'<div class="empty-state">(nothing matches)</div>';
+  if(following&&nearBottom) feed.scrollTop=feed.scrollHeight;
+}
+function toggleErrOnly(){ errOnly=!errOnly; document.getElementById('errBtn').classList.toggle('on',errOnly); renderLive(); }
+function onFollowToggle(){ following=document.getElementById('followChk').checked; if(following) jumpBottom(); }
+function jumpBottom(){ const f=document.getElementById('liveFeed'); f.scrollTop=f.scrollHeight; }
+function clearFeed(){ feedBuf=''; feedEvents=[]; document.getElementById('liveFeed').innerHTML=''; document.getElementById('liveStats').style.display='none'; }
+function setStatus(id,cls,html){ const el=document.getElementById(id); el.className='status '+cls; el.innerHTML=html; }
+
+/* ---------- BRAIN ---------- */
+let brainAuto=true, brainTimer=null, expanded=new Set();
+async function refreshBrain(){
+  try{ const r=await fetch(BRAIN_API+'/api/brain/executions',{cache:'no-store'}); if(!r.ok) throw new Error('API not responding');
+    const d=await r.json(); setStatus('brainStatus','connected',`<strong>API:</strong> connected · <strong>${d.count||0}</strong> execution(s)`);
+    const box=document.getElementById('executions');
+    if(!d.executions||!d.executions.length){ box.innerHTML='<div class="empty-state"><h2>No executions yet</h2></div>'; return; }
+    box.innerHTML=d.executions.map(x=>{ const lang=(x.language||'unknown').toLowerCase(), st=(x.status||'completed').toLowerCase(), open=expanded.has(x.id);
+      return `<div class="execution-card ${open?'expanded':''}" id="card-${esc(x.id)}"><div class="execution-header" onclick="toggleCard('${esc(x.id)}')">
+        <div class="execution-time">${esc(x.timestamp||'')}</div><div class="badge ${lang}">${esc(lang)}</div><div class="badge ${st}">${esc(st)}</div>
+        <div class="execution-desc">${esc(x.description||x.file||'(no description)')}</div><div>▶</div></div>
+        <div class="execution-details" id="details-${esc(x.id)}" data-loaded="false"><div class="empty-state">Loading…</div></div></div>`; }).join('');
+  }catch(e){ setStatus('brainStatus','error',`<strong>Error:</strong> ${e.message}<br>Start it with <code>scripts/monitor.sh</code>.`); }
+}
+function toggleCard(id){ const c=document.getElementById('card-'+id); if(!c) return; if(c.classList.toggle('expanded')){ expanded.add(id); loadBrainDetails(id);} else expanded.delete(id); }
+async function loadBrainDetails(id){ const box=document.getElementById('details-'+id); if(!box||box.dataset.loaded==='true') return;
+  try{ const r=await fetch(`${BRAIN_API}/api/brain/executions/${encodeURIComponent(id)}`,{cache:'no-store'}); const d=await r.json();
+    const code=d.code||d.command||'', output=d.output||d.stdout||'', err=d.error||d.stderr||''; let h='';
+    if(code) h+=`<div class="section-title">Code</div><div class="code-block">${esc(code)}</div>`;
+    if(output) h+=`<div class="section-title">Output</div><div class="output-block">${esc(output)}</div>`;
+    if(err) h+=`<div class="section-title">Errors</div><div class="output-block error-block">${esc(err)}</div>`;
+    if(!h) h=`<div class="code-block">${esc(JSON.stringify(d,null,2))}</div>`; box.innerHTML=h; box.dataset.loaded='true';
+  }catch(e){ box.innerHTML=`<div class="empty-state" style="color:#f88">Error: ${esc(e.message)}</div>`; }
+}
+function toggleBrainAuto(){ brainAuto=!brainAuto; document.getElementById('brainAutoBtn').textContent=brainAuto?'⏸ Pause auto-refresh':'▶ Resume auto-refresh'; if(brainAuto){brainTimer=setInterval(refreshBrain,3000);}else{clearInterval(brainTimer);brainTimer=null;} }
+
+loadRuns(); setInterval(loadRuns,15000); pollLive(false); refreshBrain(); brainTimer=setInterval(refreshBrain,3000);
+</script>
 </body>
 </html>

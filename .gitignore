@@ -92,3 +92,6 @@ fix_context_window.md
 
 # Lock files
 uv.lock
+
+# editor backup copies (git is the backup)
+*.bak-*
